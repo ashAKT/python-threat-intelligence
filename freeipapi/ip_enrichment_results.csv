@@ -1,0 +1,3 @@
+ipAddress,ipVersion,countryName,countryCode,regionName,regionCode,cityName,zipCode,latitude,longitude,asn,asnOrganization,isProxy,status,error
+8.8.8.8,4,United States,US,California,CA,Mountain View,94035,37.422,-122.085,15169,Google LLC,False,Success,
+1.1.1.1,4,Australia,AU,New South Wales,NSW,Sydney,4000,-33.8688,151.209,13335,"Cloudflare, Inc.",False,Success,

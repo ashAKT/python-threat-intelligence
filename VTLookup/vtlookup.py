@@ -77,6 +77,8 @@ for index, file_hash in enumerate(hashes, start=1):
 
     url = f"https://www.virustotal.com/api/v3/files/{file_hash}"
 
+    print(f"Checking hash: {file_hash}", flush=True)
+
     try:
         response = requests.get(
             url,
@@ -149,6 +151,8 @@ for index, file_hash in enumerate(hashes, start=1):
         temp["Status"] = f"Response parsing error: {error}"
         print(f"Could not parse response for {file_hash}: {error}")
 
+    print(f"HTTP status: {response.status_code}", flush=True)
+    
     final_data.append(temp)
 
     # Delay between API requests

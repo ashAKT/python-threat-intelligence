@@ -1,0 +1,17 @@
+Virustotal
+https://www.youtube.com/watch?v=R5JR8EjkzRE
+
+AbuseCH
+https://hunting.abuse.ch/api/#auth_key
+
+OTX Alienvault
+https://otx.alienvault.com/api
+
+AbuseIPDB
+https://www.abuseipdb.com/bulk-report
+
+MXToolBox
+https://mxtoolbox.com/api/api-reference
+
+IPvLookup
+https://www.ipvlookup.com/developer-api
