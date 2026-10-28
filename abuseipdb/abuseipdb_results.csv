@@ -1,0 +1,22 @@
+﻿ipAddress,ipVersion,query_status,abuseConfidenceScore,totalReports,numDistinctUsers,lastReportedAt,countryCode,isp,usageType,domain,isWhitelisted,error
+82.47.101.191,4,SUCCESS,0,0,0,,SA,Kayan Foundation for Information Technology,Data Center/Web Hosting/Transit,ipxo.com,False,
+159.89.132.240,4,SUCCESS,0,0,0,2025-05-28T03:34:38+00:00,US,"DigitalOcean, LLC",Data Center/Web Hosting/Transit,digitalocean.com,False,
+47.236.149.142,4,SUCCESS,0,0,0,2024-07-04T07:07:10+00:00,SG,Alibaba Cloud LLC,Data Center/Web Hosting/Transit,alibaba-inc.com,False,
+115.190.108.6,4,SUCCESS,0,0,0,,CN,"Beijing Volcano Engine Technology Co., Ltd.",Data Center/Web Hosting/Transit,gwbn.net.cn,False,
+91.132.161.21,4,SUCCESS,0,0,0,,DE,Senko Digital LLC - DE Network,Data Center/Web Hosting/Transit,senko.digital,False,
+217.60.97.3,4,SUCCESS,0,0,0,,US,GOLD IP L.L.C-FZ,Data Center/Web Hosting/Transit,goldipv4.com,False,
+134.122.130.181,4,SUCCESS,0,0,0,2025-08-29T03:03:43+00:00,HK,CTG Server Ltd.,Data Center/Web Hosting/Transit,ctgserver.com,False,
+23.95.220.192,4,SUCCESS,0,0,0,,US,RackNerd LLC,Data Center/Web Hosting/Transit,racknerd.com,False,
+luxurygoodscaree.com,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+boldtop.click,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+casevor.com,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+https://pan.paihost.com/,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+https://62.238.55.102,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+fbca291865b5a9659952ec3b625762e21323a54eb93022991f9a75a11de946bc,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+cbb1ca90f96cd4746129aa5616d1ba25,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+1b3a5d75372f59b2348d169d104d669ade396b13,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+5e807b5428e7ad156d895f1e9d28fb4fd49de6155de3a9eea409d24af7b641a2,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+8d11b2ebbbc8a7969249d583e5073e02310b8dbd,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+424ab6ca20b47eeffe34c1f1ec3212f1db44aa022f5d55cc46def671b4d79300,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+011d644427a002eedf5c19869b57f1b92823cef87660e3b3a2b74cc884233bbf,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
+190835cc5c17e7367fcad563127d48946b18b6eccb5a4da8dbf4dba8bbf047e5,,SKIPPED_UNSUPPORTED_TYPE,,,,,,,,,,AbuseIPDB supports single IP addresses only
