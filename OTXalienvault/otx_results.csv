@@ -1,0 +1,9 @@
+﻿indicator,indicator_type,lookup_status,pulse_count,reputation,country,asn,otx_link,error
+8.8.8.8,IPV4,FOUND_NO_PULSES,0,0,,,https://otx.alienvault.com/indicator/IPv4/8.8.8.8,
+1.1.1.1,IPV4,FOUND_NO_PULSES,0,0,,,https://otx.alienvault.com/indicator/IPv4/1.1.1.1,
+example.com,DOMAIN,FOUND_WITH_PULSES,50,,,,https://otx.alienvault.com/indicator/domain/example.com,
+google.com,DOMAIN,FOUND_NO_PULSES,0,,,,https://otx.alienvault.com/indicator/domain/google.com,
+https://example.com/test,URL,FOUND_NO_PULSES,0,,,,https://otx.alienvault.com/indicator/url/https%3A%2F%2Fexample.com%2Ftest,
+44d88612fea8a8f36de82e1278abb02f,MD5,FOUND_WITH_PULSES,50,,,,https://otx.alienvault.com/indicator/file/44d88612fea8a8f36de82e1278abb02f,
+3395856ce81f2b7382dee72602f798b642f14140,SHA1,FOUND_WITH_PULSES,50,,,,https://otx.alienvault.com/indicator/file/3395856ce81f2b7382dee72602f798b642f14140,
+275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f,SHA256,FOUND_WITH_PULSES,50,,,,https://otx.alienvault.com/indicator/file/275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f,
