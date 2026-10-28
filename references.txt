@@ -12,6 +12,3 @@ https://www.abuseipdb.com/bulk-report
 
 MXToolBox
 https://mxtoolbox.com/api/api-reference
-
-IPvLookup
-https://www.ipvlookup.com/developer-api

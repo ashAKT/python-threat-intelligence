@@ -12,6 +12,3 @@ VTLookup/results.csv
 
 # Local editor settings
 .vscode/
-
-# Backups
-backups/OTXalienvault/otx_details.jsonl
