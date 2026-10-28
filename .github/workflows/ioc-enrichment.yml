@@ -43,14 +43,18 @@ jobs:
           import os
           from pathlib import Path
 
+          raw = os.environ.get("IOC_INPUT", "")
           values = [
               line.strip()
-              for line in os.environ["IOC_INPUT"].splitlines()
+              for line in raw.splitlines()
               if line.strip() and not line.strip().startswith("#")
           ]
 
           if not values:
-              raise SystemExit("No IOCs supplied.")
+              raise SystemExit("ERROR: No IOCs supplied.")
+
+          # Remove duplicates while preserving order.
+          unique = list(dict.fromkeys(values))
 
           path = Path("abusech/indicators.csv")
           path.parent.mkdir(parents=True, exist_ok=True)
@@ -58,15 +62,37 @@ jobs:
           with path.open("w", newline="", encoding="utf-8") as f:
               writer = csv.writer(f)
               writer.writerow(["ioc"])
-              writer.writerows([[value] for value in values])
+              writer.writerows([[value] for value in unique)
 
-          print(f"Prepared {len(values)} IOCs.")
+          print(f"Prepared {len(unique)} unique IOCs.")
+          for index, value in enumerate(unique, start=1):
+              print(f"[{index}] {value}")
           PY
+
+      - name: Verify API secret
+        env:
+          ABUSECH_API_KEY: ${{ secrets.ABUSECH_API_KEY }}
+        run: |
+          if [ -z "$ABUSECH_API_KEY" ]; then
+            echo "::error::ABUSECH_API_KEY is missing or empty."
+            exit 1
+          fi
+          echo "API secret is configured and non-empty."
 
       - name: Run IOC enrichment
         env:
           ABUSECH_API_KEY: ${{ secrets.ABUSECH_API_KEY }}
         run: python abusech/abusech.py
+
+      - name: Verify result file
+        if: always()
+        run: |
+          if [ -f abusech/abusech_ioc_results.csv ]; then
+            echo "IOC results CSV exists."
+            wc -l abusech/abusech_ioc_results.csv
+          else
+            echo "::warning::IOC results CSV was not generated."
+          fi
 
       - name: Upload IOC results
         if: always()
