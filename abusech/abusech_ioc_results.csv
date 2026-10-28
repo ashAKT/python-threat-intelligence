@@ -1,0 +1,64 @@
+﻿indicator,indicator_type,source,verdict,query_status,threat_type,malware_family,confidence,first_seen,last_seen,file_name,file_type,signature,tags,reference,error
+82.47.101.191,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),DCRat,75,2026-06-14 19:45:26 UTC,2026-07-19 18:45:42 UTC,,ip:port combination that is used for botnet Command&control (C&C),DarkCrystal RAT,"DCRat, drb-ra, RAT",https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat,ThreatFox IOC includes a port: 82.47.101.191:8848
+82.47.101.191,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+82.47.101.191,ip,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+159.89.132.240,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),Aisuru,100,2026-07-17 11:33:21 UTC,,,ip:port combination that is used for botnet Command&control (C&C),,"Aisuru, c2",https://malpedia.caad.fkie.fraunhofer.de/details/elf.aisuru,ThreatFox IOC includes a port: 159.89.132.240:37215
+159.89.132.240,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+159.89.132.240,ip,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+47.236.149.142,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),Cobalt Strike,50,2026-09-27 18:03:41 UTC,,,ip:port combination that is used for botnet Command&control (C&C),"Agentemis,BEACON,CobaltStrike,cobeacon","cobaltstrike, shodan",https://www.shodan.io/host/47.236.149.142#50050,ThreatFox IOC includes a port: 47.236.149.142:50050
+47.236.149.142,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+47.236.149.142,ip,URLhaus,FOUND,ok,malware_download,malware_download,,2025-11-18 16:34:27 UTC,,http://47.236.149.142:46832/02.08.2022.exe,offline,,"censys, CobaltStrike",https://urlhaus.abuse.ch/url/3711282/,
+115.190.108.6,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),PoshC2,75,2026-06-18 19:43:11 UTC,2026-09-05 18:43:23 UTC,,ip:port combination that is used for botnet Command&control (C&C),,"drb-ra, PoshC2",https://malpedia.caad.fkie.fraunhofer.de/details/win.poshc2,ThreatFox IOC includes a port: 115.190.108.6:54233
+115.190.108.6,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+115.190.108.6,ip,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+91.132.161.21,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),AdaptixC2,75,2026-06-16 09:45:48 UTC,2026-09-11 18:47:30 UTC,,ip:port combination that is used for botnet Command&control (C&C),,"AdaptixC2, drb-ra",https://malpedia.caad.fkie.fraunhofer.de/details/win.adaptix_c2,ThreatFox IOC includes a port: 91.132.161.21:4321
+91.132.161.21,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+91.132.161.21,ip,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+217.60.97.3,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),AdaptixC2,75,2026-06-25 19:45:00 UTC,2026-08-18 18:45:37 UTC,,ip:port combination that is used for botnet Command&control (C&C),,"AdaptixC2, drb-ra",https://malpedia.caad.fkie.fraunhofer.de/details/win.adaptix_c2,ThreatFox IOC includes a port: 217.60.97.3:8899
+217.60.97.3,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+217.60.97.3,ip,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+134.122.130.181,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),Cobalt Strike,100,2024-04-29 12:51:26 UTC,2026-10-28 07:21:24 UTC,,ip:port combination that is used for botnet Command&control (C&C),"Agentemis,BEACON,CobaltStrike,cobeacon","BGPNET Global ASN, CobaltStrike, cs-watermark-987654321",https://malpedia.caad.fkie.fraunhofer.de/details/win.cobalt_strike,ThreatFox IOC includes a port: 134.122.130.181:443
+134.122.130.181,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+134.122.130.181,ip,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+23.95.220.192,ip,ThreatFox,RELATED_FOUND,ok,Indicator that identifies a botnet command&control server (C&C),AdaptixC2,75,2026-06-10 09:44:56 UTC,2026-08-07 18:45:30 UTC,,ip:port combination that is used for botnet Command&control (C&C),,"AdaptixC2, drb-ra",https://malpedia.caad.fkie.fraunhofer.de/details/win.adaptix_c2,ThreatFox IOC includes a port: 23.95.220.192:43999
+23.95.220.192,ip,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+23.95.220.192,ip,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+luxurygoodscaree.com,domain,ThreatFox,FOUND,ok,Indicator that identifies a malware distribution server (payload delivery),ClearFake,100,2026-07-18 05:32:03 UTC,2026-07-18 18:20:16 UTC,,Domain name that delivers a malware payload,,ClearFake,https://malpedia.caad.fkie.fraunhofer.de/details/js.clearfake,
+luxurygoodscaree.com,domain,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+luxurygoodscaree.com,domain,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+boldtop.click,domain,ThreatFox,FOUND,ok,Indicator that identifies a botnet command&control server (C&C),Cobalt Strike,75,2026-06-25 15:45:59 UTC,2026-07-26 08:46:20 UTC,,Domain that is used for botnet Command&control (C&C),"Agentemis,BEACON,CobaltStrike,cobeacon","CobaltStrike, drb-ra",https://malpedia.caad.fkie.fraunhofer.de/details/win.cobalt_strike,
+boldtop.click,domain,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+boldtop.click,domain,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+casevor.com,domain,ThreatFox,FOUND,ok,Indicator that identifies a botnet command&control server (C&C),Cobalt Strike,75,2022-12-30 19:48:21 UTC,2026-10-28 07:22:01 UTC,,Domain that is used for botnet Command&control (C&C),"Agentemis,BEACON,CobaltStrike,cobeacon","CobaltStrike, threatview-io",https://threatview.io/Downloads/High-Confidence-CobaltstrikeC2_platforms.txt,
+casevor.com,domain,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+casevor.com,domain,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+https://pan.paihost.com/,url,ThreatFox,FOUND,ok,Indicator that identifies a botnet command&control server (C&C),Vidar,100,2026-03-13 15:05:58 UTC,2026-09-10 01:14:16 UTC,,URL that is used for botnet Command&control (C&C),,Vidar,https://malpedia.caad.fkie.fraunhofer.de/details/win.vidar,
+https://pan.paihost.com/,url,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+https://pan.paihost.com/,url,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+https://62.238.55.102,url,ThreatFox,FOUND,ok,Indicator that identifies a botnet command&control server (C&C),Vidar,100,2026-10-21 13:43:28 UTC,,,URL that is used for botnet Command&control (C&C),,Vidar,https://malpedia.caad.fkie.fraunhofer.de/details/win.vidar,
+https://62.238.55.102,url,MalwareBazaar,SKIPPED,unsupported_indicator,,,,,,,,,,,MalwareBazaar lookup requires a file hash
+https://62.238.55.102,url,URLhaus,NOT_FOUND,no_results,,,,,,,,,,,
+fbca291865b5a9659952ec3b625762e21323a54eb93022991f9a75a11de946bc,sha256,ThreatFox,FOUND,ok,Indicator that identifies a malware sample (payload),AMOS,100,2026-10-21 13:42:39 UTC,,,SHA256 hash of a malware sample (payload),Atomic macOS Stealer,"AMOS, ClickFix, Foxveil, macOS, nova",https://www.virustotal.com/gui/file/fbca291865b5a9659952ec3b625762e21323a54eb93022991f9a75a11de946bc,
+fbca291865b5a9659952ec3b625762e21323a54eb93022991f9a75a11de946bc,sha256,MalwareBazaar,NOT_FOUND,hash_not_found,,,,,,,,,,,
+fbca291865b5a9659952ec3b625762e21323a54eb93022991f9a75a11de946bc,sha256,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
+cbb1ca90f96cd4746129aa5616d1ba25,md5,ThreatFox,FOUND,ok,Indicator that identifies a malware sample (payload),Coinminer,95,2026-10-21 13:41:31 UTC,,,MD5 hash of a malware sample (payload),,,https://malpedia.caad.fkie.fraunhofer.de/details/win.coinminer,
+cbb1ca90f96cd4746129aa5616d1ba25,md5,MalwareBazaar,FOUND,ok,exe,CoinMiner,,2026-10-19 18:20:52,2026-10-20 22:25:31,file,exe,CoinMiner,"b89d843f29af2eed09805e9767a1165f, CoinMiner, dropped-by-Vidar, exe, signed",Bitsight,
+cbb1ca90f96cd4746129aa5616d1ba25,md5,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
+1b3a5d75372f59b2348d169d104d669ade396b13,sha1,ThreatFox,FOUND,ok,Indicator that identifies a malware sample (payload),Coinminer,95,2026-10-21 13:41:31 UTC,,,SHA1 hash of a malware sample (payload),,,https://malpedia.caad.fkie.fraunhofer.de/details/win.coinminer,
+1b3a5d75372f59b2348d169d104d669ade396b13,sha1,MalwareBazaar,FOUND,ok,exe,CoinMiner,,2026-10-19 18:20:52,2026-10-20 22:25:31,file,exe,CoinMiner,"b89d843f29af2eed09805e9767a1165f, CoinMiner, dropped-by-Vidar, exe, signed",Bitsight,
+1b3a5d75372f59b2348d169d104d669ade396b13,sha1,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
+5e807b5428e7ad156d895f1e9d28fb4fd49de6155de3a9eea409d24af7b641a2,sha256,ThreatFox,FOUND,ok,Indicator that identifies a malware sample (payload),Coinminer,95,2026-10-21 13:41:30 UTC,,,SHA256 hash of a malware sample (payload),,,https://malpedia.caad.fkie.fraunhofer.de/details/win.coinminer,
+5e807b5428e7ad156d895f1e9d28fb4fd49de6155de3a9eea409d24af7b641a2,sha256,MalwareBazaar,FOUND,ok,exe,CoinMiner,,2026-10-19 18:20:52,2026-10-20 22:25:31,file,exe,CoinMiner,"b89d843f29af2eed09805e9767a1165f, CoinMiner, dropped-by-Vidar, exe, signed",Bitsight,
+5e807b5428e7ad156d895f1e9d28fb4fd49de6155de3a9eea409d24af7b641a2,sha256,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
+8d11b2ebbbc8a7969249d583e5073e02310b8dbd,sha1,ThreatFox,FOUND,ok,Indicator that identifies a malware sample (payload),SalatStealer,95,2026-10-21 13:41:11 UTC,,,SHA1 hash of a malware sample (payload),,,https://malpedia.caad.fkie.fraunhofer.de/details/win.salatstealer,
+8d11b2ebbbc8a7969249d583e5073e02310b8dbd,sha1,MalwareBazaar,FOUND,ok,exe,SalatStealer,,2026-10-20 05:47:35,,424ab6ca20b47eeffe34c1f1ec3212f1db44aa022f5d55cc46def671b4d79300.exe,exe,SalatStealer,"exe, SalatStealer",Tuxxin,
+8d11b2ebbbc8a7969249d583e5073e02310b8dbd,sha1,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
+424ab6ca20b47eeffe34c1f1ec3212f1db44aa022f5d55cc46def671b4d79300,sha256,ThreatFox,FOUND,ok,Indicator that identifies a malware sample (payload),SalatStealer,95,2026-10-21 13:41:11 UTC,,,SHA256 hash of a malware sample (payload),,,https://malpedia.caad.fkie.fraunhofer.de/details/win.salatstealer,
+424ab6ca20b47eeffe34c1f1ec3212f1db44aa022f5d55cc46def671b4d79300,sha256,MalwareBazaar,FOUND,ok,exe,SalatStealer,,2026-10-20 05:47:35,,424ab6ca20b47eeffe34c1f1ec3212f1db44aa022f5d55cc46def671b4d79300.exe,exe,SalatStealer,"exe, SalatStealer",Tuxxin,
+424ab6ca20b47eeffe34c1f1ec3212f1db44aa022f5d55cc46def671b4d79300,sha256,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
+011d644427a002eedf5c19869b57f1b92823cef87660e3b3a2b74cc884233bbf,sha256,ThreatFox,FOUND,ok,Indicator that identifies a malware sample (payload),NetWire RC,95,2026-10-27 19:32:37 UTC,,,SHA256 hash of a malware sample (payload),"NetWeird,NetWire,Recam",,https://malpedia.caad.fkie.fraunhofer.de/details/win.netwire,
+011d644427a002eedf5c19869b57f1b92823cef87660e3b3a2b74cc884233bbf,sha256,MalwareBazaar,FOUND,ok,exe,ConnectWise,,2026-10-27 09:23:19,,ScreenConnect.ClientSetup.exe,exe,ConnectWise,"ConnectWise, signed",BlinkzSec,
+011d644427a002eedf5c19869b57f1b92823cef87660e3b3a2b74cc884233bbf,sha256,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
+190835cc5c17e7367fcad563127d48946b18b6eccb5a4da8dbf4dba8bbf047e5,sha256,ThreatFox,NOT_FOUND,no_result,,,,,,,,,,,Your search did not yield any results
+190835cc5c17e7367fcad563127d48946b18b6eccb5a4da8dbf4dba8bbf047e5,sha256,MalwareBazaar,FOUND,ok,elf,Mirai,,2026-10-28 06:26:34,,d53066b5ae74b24b00cadcf3f4c7bd967a8385e6abfc1070da5a0c4edf6d30cd.elf,elf,Mirai,"elf, Mirai, upx-dec",abuse_ch,
+190835cc5c17e7367fcad563127d48946b18b6eccb5a4da8dbf4dba8bbf047e5,sha256,URLhaus,SKIPPED,unsupported_indicator,,,,,,,,,,,"URLhaus supports URLs, domains, and IP addresses"
