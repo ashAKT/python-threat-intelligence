@@ -62,7 +62,7 @@ jobs:
           with path.open("w", newline="", encoding="utf-8") as f:
               writer = csv.writer(f)
               writer.writerow(["ioc"])
-              writer.writerows([[value] for value in unique)
+              writer.writerows([[value] for value in unique])
 
           print(f"Prepared {len(unique)} unique IOCs.")
           for index, value in enumerate(unique, start=1):
