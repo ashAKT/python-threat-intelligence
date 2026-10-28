@@ -11,4 +11,4 @@ __pycache__/
 VTLookup/results.csv
 
 # Local editor settings
-.vscode/
+.vscode/backups/
