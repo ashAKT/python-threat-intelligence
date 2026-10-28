@@ -1,0 +1,78 @@
+
+name: IOC Enrichment
+
+on:
+  workflow_dispatch:
+    inputs:
+      iocs:
+        description: "Enter IOCs, one per line"
+        required: true
+        type: string
+        default: |-
+          82.47.101.191
+          example.com
+          https://example.com/malware.exe
+          44d88612fea8a8f36de82e1278abb02f
+
+permissions:
+  contents: read
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install requests python-dotenv
+
+      - name: Prepare IOC input
+        env:
+          IOC_INPUT: ${{ inputs.iocs }}
+        run: |
+          python - <<'PY'
+          import csv
+          import os
+          from pathlib import Path
+
+          values = [
+              line.strip()
+              for line in os.environ["IOC_INPUT"].splitlines()
+              if line.strip() and not line.strip().startswith("#")
+          ]
+
+          if not values:
+              raise SystemExit("No IOCs supplied.")
+
+          path = Path("abusech/indicators.csv")
+          path.parent.mkdir(parents=True, exist_ok=True)
+
+          with path.open("w", newline="", encoding="utf-8") as f:
+              writer = csv.writer(f)
+              writer.writerow(["ioc"])
+              writer.writerows([[value] for value in values])
+
+          print(f"Prepared {len(values)} IOCs.")
+          PY
+
+      - name: Run IOC enrichment
+        env:
+          ABUSECH_API_KEY: ${{ secrets.ABUSECH_API_KEY }}
+        run: python abusech/abusech.py
+
+      - name: Upload IOC results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ioc-enrichment-results
+          path: abusech/abusech_ioc_results.csv
+          if-no-files-found: warn
+          retention-days: 7
