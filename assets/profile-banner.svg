@@ -1,42 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
-  <title id="title">Cybersecurity and threat intelligence banner</title>
-  <desc id="desc">Dark navy abstract network with teal nodes and shield motif.</desc>
+  <title id="title">Cybersecurity professional banner</title>
+  <desc id="desc">A clean, modern cybersecurity banner with subtle network connections and a digital shield on a dark blue background.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#07111f"/>
-      <stop offset="60%" stop-color="#10243a"/>
-      <stop offset="100%" stop-color="#07111f"/>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1628"/>
+      <stop offset="100%" stop-color="#142d49"/>
     </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#3ee6c4"/>
-      <stop offset="100%" stop-color="#49a6ff"/>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#66e3dc"/>
+      <stop offset="100%" stop-color="#4b9bff"/>
     </linearGradient>
-    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
-      <path d="M34 0H0V34" fill="none" stroke="#86a8c7" stroke-opacity=".10" stroke-width="1"/>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#9bb7d2" stroke-opacity=".08"/>
     </pattern>
   </defs>
-  <rect width="1200" height="320" rx="24" fill="url(#bg)"/>
-  <rect width="1200" height="320" rx="24" fill="url(#grid)"/>
-  <g fill="none" stroke="url(#accent)" stroke-opacity=".58" stroke-width="1.8">
-    <path d="M690 60L790 104 890 58 1004 112 1100 70"/>
-    <path d="M650 170L760 212 858 158 955 218 1070 172 1160 220"/>
-    <path d="M790 104L760 212M890 58L858 158 955 218M1004 112L1070 172M1100 70L1160 220"/>
-    <path d="M715 275L858 158M715 275L955 218M955 218L1080 286"/>
+  <rect width="1200" height="320" rx="18" fill="url(#background)"/>
+  <rect width="1200" height="320" rx="18" fill="url(#grid)"/>
+  <circle cx="1030" cy="160" r="132" fill="#3c86bb" opacity=".08"/>
+  <g fill="none" stroke="url(#cyan)" stroke-width="1.5" stroke-opacity=".45">
+    <path d="M770 70L850 120L950 75L1060 120L1140 70"/>
+    <path d="M735 190L830 245L930 185L1030 245L1150 195"/>
+    <path d="M850 120L830 245M950 75L930 185L1030 245M1060 120L1030 245M1140 70L1150 195"/>
+    <path d="M770 70L735 190M950 75L1060 120"/>
   </g>
-  <g fill="#07111f" stroke="url(#accent)" stroke-width="2.5">
-    <circle cx="690" cy="60" r="5"/><circle cx="790" cy="104" r="6"/><circle cx="890" cy="58" r="5"/>
-    <circle cx="1004" cy="112" r="6"/><circle cx="1100" cy="70" r="5"/><circle cx="650" cy="170" r="5"/>
-    <circle cx="760" cy="212" r="6"/><circle cx="858" cy="158" r="7"/><circle cx="955" cy="218" r="6"/>
-    <circle cx="1070" cy="172" r="5"/><circle cx="1160" cy="220" r="5"/><circle cx="715" cy="275" r="5"/>
-    <circle cx="1080" cy="286" r="5"/>
+  <g fill="#132b44" stroke="url(#cyan)" stroke-width="2">
+    <circle cx="770" cy="70" r="5"/><circle cx="850" cy="120" r="5"/><circle cx="950" cy="75" r="5"/>
+    <circle cx="1060" cy="120" r="5"/><circle cx="1140" cy="70" r="5"/><circle cx="735" cy="190" r="5"/>
+    <circle cx="830" cy="245" r="5"/><circle cx="930" cy="185" r="5"/><circle cx="1030" cy="245" r="5"/><circle cx="1150" cy="195" r="5"/>
   </g>
-  <g transform="translate(1000 150)" opacity=".95">
-    <path d="M0 -52L42 -36V-4C42 25 23 44 0 57C-23 44-42 25-42-4V-36Z" fill="#0d2539" stroke="url(#accent)" stroke-width="3"/>
-    <path d="M-18 0L-5 14 21 -15" fill="none" stroke="#7fffe0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(1015 158)">
+    <path d="M0 -58L46 -40V-5C46 27 25 49 0 63C-25 49-46 27-46-5V-40Z" fill="#10263d" stroke="url(#cyan)" stroke-width="3"/>
+    <path d="M-19 0L-5 15L23 -17" fill="none" stroke="#9af5e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
-  <text x="64" y="105" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="5" fill="#63e6ca">SOC • THREAT HUNTING • DFIR</text>
-  <text x="60" y="166" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="42" font-weight="800" fill="#f0f7ff">CYBER DEFENSE</text>
-  <text x="64" y="208" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" font-weight="500" fill="#a9c5dc">Threat Intelligence  /  Detection Engineering  /  Automation</text>
-  <rect x="64" y="244" width="180" height="3" rx="2" fill="url(#accent)"/>
-  <text x="64" y="277" font-family="ui-monospace,SFMono-Regular,Consolas,monospace" font-size="13" letter-spacing="2" fill="#789bb5">INVESTIGATE • ENRICH • CORRELATE</text>
+  <text x="66" y="93" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="4" fill="#75e4dc">CYBERSECURITY • DEFENSIVE SECURITY</text>
+  <text x="62" y="153" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="43" font-weight="750" fill="#f4f8ff">CYBERSECURITY PROFESSIONAL</text>
+  <text x="66" y="197" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="21" fill="#c0d3e6">Security Operations  ·  Threat Intelligence  ·  Threat Hunting</text>
+  <rect x="66" y="231" width="160" height="3" rx="1.5" fill="url(#cyan)"/>
+  <text x="66" y="264" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" letter-spacing="1.8" fill="#91abc4">DETECT  /  INVESTIGATE  /  IMPROVE</text>
 </svg>
