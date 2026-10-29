@@ -1,0 +1,79 @@
+name: MISSP IOC Search
+
+on:
+  workflow_dispatch:
+    inputs:
+      ioc:
+        description: "Enter IOC(s): one per line or separated by spaces/commas"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  search-ioc:
+    name: Search threat intelligence database
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository and Git LFS database
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        working-directory: missp
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate IOC database
+        working-directory: missp
+        run: |
+          if [ ! -s threat_indicators.csv ]; then
+            echo "::error::threat_indicators.csv is missing or empty. Check that the Git LFS database was downloaded."
+            exit 1
+          fi
+          echo "IOC database is present."
+          ls -lh threat_indicators.csv
+
+      - name: Prepare IOC input
+        working-directory: missp
+        env:
+          IOC_INPUT: ${{ inputs.ioc }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          # IOC values (IP/domain/hash/URL) do not normally contain whitespace.
+          # Accept newline-, space-, tab-, or comma-separated input.
+          values = [
+              token.strip()
+              for token in re.split(r"[\s,]+", os.environ["IOC_INPUT"])
+              if token.strip() and not token.lstrip().startswith("#")
+          ]
+          if not values:
+              raise SystemExit("No IOC values were provided.")
+          Path("input_iocs.txt").write_text("\n".join(values) + "\n", encoding="utf-8")
+          print(f"Prepared {len(values)} IOC(s), one per line.")
+          PY
+
+      - name: Search IOCs
+        working-directory: missp
+        run: python ioc_search.py --input input_iocs.txt
+
+      - name: Upload matching records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ioc-search-results
+          path: missp/ioc_matches.csv
+          if-no-files-found: warn
+          retention-days: 7
