@@ -1,40 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
-  <title id="title">Cybersecurity professional banner</title>
-  <desc id="desc">A clean, modern cybersecurity banner with subtle network connections and a digital shield on a dark blue background.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Hacker style digital terminal banner</title>
+  <desc id="desc">A cinematic dark terminal scene with cyan code, abstract network graphics, and a hooded silhouette.</desc>
   <defs>
-    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0b1628"/>
-      <stop offset="100%" stop-color="#142d49"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#02070b"/>
+      <stop offset="55%" stop-color="#061522"/>
+      <stop offset="100%" stop-color="#020609"/>
     </linearGradient>
     <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#66e3dc"/>
-      <stop offset="100%" stop-color="#4b9bff"/>
+      <stop offset="0%" stop-color="#00ffd0"/>
+      <stop offset="100%" stop-color="#00a6ff"/>
     </linearGradient>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M40 0H0V40" fill="none" stroke="#9bb7d2" stroke-opacity=".08"/>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#00c8ff" stroke-opacity=".08" stroke-width="1"/>
     </pattern>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
-  <rect width="1200" height="320" rx="18" fill="url(#background)"/>
-  <rect width="1200" height="320" rx="18" fill="url(#grid)"/>
-  <circle cx="1030" cy="160" r="132" fill="#3c86bb" opacity=".08"/>
-  <g fill="none" stroke="url(#cyan)" stroke-width="1.5" stroke-opacity=".45">
-    <path d="M770 70L850 120L950 75L1060 120L1140 70"/>
-    <path d="M735 190L830 245L930 185L1030 245L1150 195"/>
-    <path d="M850 120L830 245M950 75L930 185L1030 245M1060 120L1030 245M1140 70L1150 195"/>
-    <path d="M770 70L735 190M950 75L1060 120"/>
+  <rect width="1200" height="360" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="360" rx="18" fill="url(#grid)"/>
+  <g fill="none" stroke="#00bfff" stroke-opacity=".35" stroke-width="1.3">
+    <path d="M720 52L790 95L880 56L965 106L1080 63L1150 112"/>
+    <path d="M690 160L780 206L870 154L965 216L1060 173L1160 230"/>
+    <path d="M790 95L780 206M880 56L870 154L965 216M965 106L1060 173M1080 63L1160 230"/>
+    <path d="M740 285L870 154M740 285L965 216L1090 292"/>
   </g>
-  <g fill="#132b44" stroke="url(#cyan)" stroke-width="2">
-    <circle cx="770" cy="70" r="5"/><circle cx="850" cy="120" r="5"/><circle cx="950" cy="75" r="5"/>
-    <circle cx="1060" cy="120" r="5"/><circle cx="1140" cy="70" r="5"/><circle cx="735" cy="190" r="5"/>
-    <circle cx="830" cy="245" r="5"/><circle cx="930" cy="185" r="5"/><circle cx="1030" cy="245" r="5"/><circle cx="1150" cy="195" r="5"/>
+  <g fill="#03111b" stroke="url(#cyan)" stroke-width="2">
+    <circle cx="720" cy="52" r="4"/><circle cx="790" cy="95" r="5"/><circle cx="880" cy="56" r="4"/>
+    <circle cx="965" cy="106" r="5"/><circle cx="1080" cy="63" r="4"/><circle cx="1150" cy="112" r="4"/>
+    <circle cx="690" cy="160" r="4"/><circle cx="780" cy="206" r="5"/><circle cx="870" cy="154" r="6"/>
+    <circle cx="965" cy="216" r="5"/><circle cx="1060" cy="173" r="4"/><circle cx="1160" cy="230" r="4"/>
+    <circle cx="740" cy="285" r="4"/><circle cx="1090" cy="292" r="4"/>
   </g>
-  <g transform="translate(1015 158)">
-    <path d="M0 -58L46 -40V-5C46 27 25 49 0 63C-25 49-46 27-46-5V-40Z" fill="#10263d" stroke="url(#cyan)" stroke-width="3"/>
-    <path d="M-19 0L-5 15L23 -17" fill="none" stroke="#9af5e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g opacity=".5" fill="#00d9ff" font-family="monospace" font-size="10">
+    <text x="720" y="30">01001000 01000001 01000011 01001011</text>
+    <text x="825" y="135">0x7FA2 :: NODE_ACTIVE</text>
+    <text x="890" y="250">PACKET_FLOW // ENCRYPTED</text>
+    <text x="780" y="320">01010111 01000001 01010100 01000011 01001000</text>
   </g>
-  <text x="66" y="93" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="4" fill="#75e4dc">CYBERSECURITY • DEFENSIVE SECURITY</text>
-  <text x="62" y="153" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="43" font-weight="750" fill="#f4f8ff">CYBERSECURITY PROFESSIONAL</text>
-  <text x="66" y="197" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="21" fill="#c0d3e6">Security Operations  ·  Threat Intelligence  ·  Threat Hunting</text>
-  <rect x="66" y="231" width="160" height="3" rx="1.5" fill="url(#cyan)"/>
-  <text x="66" y="264" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" letter-spacing="1.8" fill="#91abc4">DETECT  /  INVESTIGATE  /  IMPROVE</text>
+  <g transform="translate(1030 172)" opacity=".85">
+    <path d="M0 -48L38 -32V-3C38 24 21 42 0 54C-21 42-38 24-38-3V-32Z" fill="#061827" stroke="url(#cyan)" stroke-width="2.5"/>
+    <path d="M-15 0L-4 12L18 -13" fill="none" stroke="#00ffd0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  </g>
+  <text x="58" y="54" font-family="monospace" font-size="14" letter-spacing="2" fill="#00ffd0">[ SYSTEM ONLINE ]</text>
+  <text x="56" y="127" font-family="monospace" font-size="44" font-weight="700" fill="#d9f7ff">ACCESS GRANTED</text>
+  <text x="59" y="169" font-family="monospace" font-size="18" fill="#31caff">WELCOME TO THE DIGITAL FRONTIER_</text>
+  <g font-family="monospace" font-size="14" fill="#00ffd0">
+    <text x="60" y="222">[+] Initializing secure connection...</text>
+    <text x="60" y="249">[+] Mapping the digital landscape...</text>
+    <text x="60" y="276">[+] Stay curious. Stay secure.</text>
+  </g>
+  <path d="M60 307H360" stroke="url(#cyan)" stroke-width="2" opacity=".8"/>
+  <rect x="367" y="299" width="9" height="16" fill="#00ffd0" filter="url(#glow)"/>
 </svg>
