@@ -1,0 +1,64 @@
+name: AlienVault OTX Lookup
+
+on:
+  workflow_dispatch:
+    inputs:
+      iocs:
+        description: "Enter IPs, domains, URLs, hashes, or CVEs separated by commas, spaces, or newlines"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  otx:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install requests python-dotenv
+      - name: Prepare OTX input
+        env:
+          IOC_INPUT: ${{ inputs.iocs }}
+        run: |
+          python - <<'PY'
+          import csv, ipaddress, os, re
+          from pathlib import Path
+          values = list(dict.fromkeys(x.strip().strip("\"'") for x in re.split(r"[,;\s]+", os.environ.get("IOC_INPUT", "")) if x.strip()))
+          values = [x for x in values if not x.startswith("#")]
+          if not values: raise SystemExit("No IOCs supplied.")
+          rows = []
+          for v in values:
+              try: kind = "IPV4" if ipaddress.ip_address(v).version == 4 else "IPV6"
+              except ValueError:
+                  if re.fullmatch(r"(?i)[a-f0-9]{32}", v): kind = "MD5"
+                  elif re.fullmatch(r"(?i)[a-f0-9]{40}", v): kind = "SHA1"
+                  elif re.fullmatch(r"(?i)[a-f0-9]{64}", v): kind = "SHA256"
+                  elif v.lower().startswith(("http://", "https://")): kind = "URL"
+                  elif re.fullmatch(r"(?i)CVE-\d{4}-\d{4,}", v): kind = "CVE"
+                  else: kind = "DOMAIN"
+              rows.append({"indicator": v, "type": kind})
+          p = Path("OTXalienvault/indicators.csv")
+          with p.open("w", newline="", encoding="utf-8-sig") as f:
+              w = csv.DictWriter(f, fieldnames=["indicator", "type"]); w.writeheader(); w.writerows(rows)
+          print(f"Prepared {len(rows)} IOCs for OTX.")
+          PY
+      - name: Run OTX lookup
+        env:
+          OTX_API_KEY: ${{ secrets.OTX_API_KEY }}
+        run: |
+          if [ -z "$OTX_API_KEY" ]; then echo "::error::Add OTX_API_KEY under Settings > Secrets and variables > Actions."; exit 1; fi
+          python OTXalienvault/otxalienvault.py
+      - name: Upload OTX results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: otx-lookup-results
+          path: OTXalienvault/otx_results.csv
+          if-no-files-found: warn
+          retention-days: 7
