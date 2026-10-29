@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       ioc:
-        description: "Enter one IOC per line (IP, domain, URL, or file hash)"
+        description: "Enter IOC(s): one per line or separated by spaces/commas"
         required: true
         type: string
 
@@ -49,12 +49,15 @@ jobs:
         run: |
           python - <<'PY'
           import os
+          import re
           from pathlib import Path
 
+          # IOC values (IP/domain/hash/URL) do not normally contain whitespace.
+          # Accept newline-, space-, tab-, or comma-separated input.
           values = [
-              line.strip()
-              for line in os.environ["IOC_INPUT"].splitlines()
-              if line.strip() and not line.lstrip().startswith("#")
+              token.strip()
+              for token in re.split(r"[\s,]+", os.environ["IOC_INPUT"])
+              if token.strip() and not token.lstrip().startswith("#")
           ]
           if not values:
               raise SystemExit("No IOC values were provided.")
