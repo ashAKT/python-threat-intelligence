@@ -1,0 +1,46 @@
+{
+  "known_channels": [],
+  "discovery_keywords": [
+    "cyber threat intelligence",
+    "ransomware",
+    "data breach",
+    "data leak",
+    "initial access broker",
+    "stolen credentials",
+    "corporate VPN access",
+    "database leak",
+    "malware analysis",
+    "zero day exploit",
+    "phishing campaign",
+    "ransomware victims",
+    "dark web",
+    "infostealer",
+    "credential leak",
+    "data exfiltration",
+    "corporate credentials",
+    "access for sale",
+    "botnet",
+    "APT campaign"
+  ],
+  "client_watchlist": [
+    {
+      "name": "Example Client",
+      "keywords": [
+        "example.com",
+        "www.example.com",
+        "Example Client",
+        "ExampleClient",
+        "exampleclient",
+        "vpn.example.com",
+        "mail.example.com"
+      ]
+    }
+  ],
+  "messages_per_channel": 100,
+  "max_discovered_channels_per_keyword": 20,
+  "scan_existing_dialogs": true,
+  "store_message_text": true,
+  "store_source_message_link": true
+}
+
+
