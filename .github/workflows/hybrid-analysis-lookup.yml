@@ -41,7 +41,7 @@ jobs:
 
           raw = os.environ.get("HASH_INPUT", "")
           values = [
-              item.strip().strip("\\"'")
+              item.strip().strip(chr(34) + chr(39))
               for item in re.split(r"[,;\s]+", raw)
               if item.strip()
           ]
