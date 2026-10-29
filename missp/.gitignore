@@ -1,0 +1,38 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated IOC databases and reports
+threat_indicators.csv
+threat_indicators.json
+misp_available_feeds.csv
+misp_feed_metadata.json
+threat_feed_errors.csv
+ioc_matches.csv
+
+# Downloaded feeds and event cache
+threat_feed_events/
+threat_feed_raw/
+
+# Local test data and backups
+test_results_backup/
+missp_backup.py
+missp_before_routing_fix.py
+*_backup_*.py
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Secrets and local environment configuration
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
