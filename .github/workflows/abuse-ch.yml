@@ -1,0 +1,107 @@
+
+name: ABUSE ch lookup
+
+on:
+  workflow_dispatch:
+    inputs:
+      iocs:
+        description: "Enter IOCs separated by commas, spaces, or newlines"
+        required: true
+        type: string
+        default: "82.47.101.191,example.com,https://example.com/malware.exe,44d88612fea8a8f36de82e1278abb02f"
+
+permissions:
+  contents: read
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install requests python-dotenv
+
+      - name: Prepare IOC input
+        env:
+          IOC_INPUT: ${{ inputs.iocs }}
+        run: |
+          python - <<'PY'
+          import csv
+          import os
+          import re
+          from pathlib import Path
+
+          raw = os.environ.get("IOC_INPUT", "").strip()
+
+          if not raw:
+              raise SystemExit("ERROR: No IOCs supplied.")
+
+          # Split on commas, semicolons, or whitespace.
+          # Use commas or newlines for normal IOC lists.
+          values = [
+              item.strip()
+              for item in re.split(r"[,;\s]+", raw)
+              if item.strip() and not item.strip().startswith("#")
+          ]
+
+          # Remove duplicates while preserving order.
+          unique = list(dict.fromkeys(values))
+
+          if not unique:
+              raise SystemExit("ERROR: No valid IOCs found.")
+
+          path = Path("abusech/indicators.csv")
+          path.parent.mkdir(parents=True, exist_ok=True)
+
+          with path.open("w", newline="", encoding="utf-8") as f:
+              writer = csv.writer(f)
+              writer.writerow(["ioc"])
+              writer.writerows([[item] for item in unique])
+
+          print(f"Prepared {len(unique)} unique IOCs.")
+          for index, item in enumerate(unique, start=1):
+              print(f"[{index}] {item}")
+          PY
+
+      - name: Verify API secret
+        env:
+          ABUSECH_API_KEY: ${{ secrets.ABUSECH_API_KEY }}
+        run: |
+          if [ -z "$ABUSECH_API_KEY" ]; then
+            echo "::error::ABUSECH_API_KEY is missing or empty."
+            exit 1
+          fi
+          echo "API secret is configured and non-empty."
+
+      - name: Run IOC enrichment
+        env:
+          ABUSECH_API_KEY: ${{ secrets.ABUSECH_API_KEY }}
+        run: python abusech/abusech.py
+
+      - name: Verify result file
+        if: always()
+        run: |
+          if [ -f abusech/abusech_ioc_results.csv ]; then
+            echo "IOC results CSV exists."
+            wc -l abusech/abusech_ioc_results.csv
+          else
+            echo "::warning::IOC results CSV was not generated."
+          fi
+
+      - name: Upload IOC results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ioc-enrichment-results
+          path: abusech/abusech_ioc_results.csv
+          if-no-files-found: warn
+          retention-days: 7
