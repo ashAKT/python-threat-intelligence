@@ -215,6 +215,7 @@ The repository includes manually triggered workflows in .github/workflows/. The 
 | [FreeIPAPI IP Lookup](.github/workflows/freeipapi-lookup.yml) | Enrich submitted IP addresses | No key referenced by current workflow |
 | [AlienVault OTX Lookup](.github/workflows/otx-alienvault-lookup.yml) | Submit mixed IOCs to OTX | OTX_API_KEY |
 | [MISSP IOC Search](.github/workflows/missp-ioc-search.yml) | Search the collected MISP IOC database | No API secret referenced by current workflow |
+| [Hybrid Analysis Hash Lookup](.github/workflows/hybrid-analysis-lookup.yml) | Look up submitted MD5, SHA-1, and SHA-256 hashes | `HYBRID_ANALYSIS_KEY` |
 
 To run a workflow, open the repository's **Actions** tab, select the workflow, choose **Run workflow**, provide the requested indicators, and review the run logs. Download generated artifacts if the workflow uploaded them. Add required keys under **Settings → Secrets and variables → Actions**. Do not paste API keys into workflow inputs. Workflow artifacts may have limited retention. Missing secrets, provider errors, quotas, and rate limits can affect results.
 
