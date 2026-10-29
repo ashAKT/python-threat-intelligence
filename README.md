@@ -276,10 +276,18 @@ Sample inputs and output reports are kept within individual tool folders. Review
 
 ## References
 
-- [VirusTotal API documentation](https://docs.virustotal.com/)
-- [abuse.ch](https://abuse.ch/)
-- [AbuseIPDB API documentation](https://docs.abuseipdb.com/)
-- [FreeIPAPI](https://freeipapi.com/)
-- [AlienVault OTX](https://otx.alienvault.com/)
-- [MISP project](https://www.misp-project.org/)
-- [ViewDNS.info API documentation](https://viewdns.info/api/documentation/)
+The following official documentation and provider resources are useful for setup, API parameters, authentication, quotas, and interpreting results. The repository's `references.txt` file also contains a small list of learning/reference links.
+
+| Project | Official documentation / resource |
+|---|---|
+| VirusTotal | [API documentation](https://docs.virustotal.com/) · [API v3 reference](https://docs.virustotal.com/reference/overview) |
+| abuse.ch | [abuse.ch services](https://abuse.ch/) · [API key / authentication reference](https://hunting.abuse.ch/api/) |
+| AbuseIPDB | [API documentation](https://docs.abuseipdb.com/) · [Bulk reporting](https://www.abuseipdb.com/bulk-report) |
+| FreeIPAPI | [FreeIPAPI website and API details](https://freeipapi.com/) |
+| AlienVault OTX | [OTX portal](https://otx.alienvault.com/) · [OTX API documentation](https://otx.alienvault.com/api) |
+| MISP | [MISP project](https://www.misp-project.org/) · [MISP documentation](https://www.misp-project.org/documentation/) |
+| ViewDNS.info | [API documentation](https://viewdns.info/api/documentation/) |
+| MXToolbox (reference resource) | [API reference](https://mxtoolbox.com/api/api-reference) |
+| VirusTotal (video reference) | [Existing YouTube reference](https://www.youtube.com/watch?v=R5JR8EjkzRE) |
+
+> **Note:** References are provided for convenience. API endpoints, authentication requirements, quotas, and available fields may change; consult the provider's current official documentation before relying on an integration.
