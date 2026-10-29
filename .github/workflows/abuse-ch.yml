@@ -8,7 +8,6 @@ on:
         description: "Enter IOCs separated by commas, spaces, or newlines"
         required: true
         type: string
-        default: "82.47.101.191,example.com,https://example.com/malware.exe,44d88612fea8a8f36de82e1278abb02f"
 
 permissions:
   contents: read
