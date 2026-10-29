@@ -1,0 +1,102 @@
+name: Hybrid Analysis Hash Lookup
+
+on:
+  workflow_dispatch:
+    inputs:
+      hashes:
+        description: "Enter MD5, SHA-1, or SHA-256 hashes separated by commas, spaces, or newlines"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  hybrid-analysis:
+    name: Look up file hashes in Hybrid Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install requests python-dotenv
+
+      - name: Prepare hash input
+        env:
+          HASH_INPUT: ${{ inputs.hashes }}
+        run: |
+          python - <<'PY'
+          import csv
+          import os
+          import re
+          from pathlib import Path
+
+          raw = os.environ.get("HASH_INPUT", "")
+          values = [
+              item.strip().strip("\\"'")
+              for item in re.split(r"[,;\\s]+", raw)
+              if item.strip()
+          ]
+          values = list(dict.fromkeys(
+              item for item in values if item and not item.startswith("#")
+          ))
+
+          if not values:
+              raise SystemExit("No hashes were supplied.")
+
+          def hash_type(value):
+              if re.fullmatch(r"(?i)[a-f0-9]{32}", value):
+                  return "MD5"
+              if re.fullmatch(r"(?i)[a-f0-9]{40}", value):
+                  return "SHA1"
+              if re.fullmatch(r"(?i)[a-f0-9]{64}", value):
+                  return "SHA256"
+              return None
+
+          invalid = [value for value in values if not hash_type(value)]
+          if invalid:
+              preview = ", ".join(invalid[:5])
+              raise SystemExit(
+                  f"Input contains {len(invalid)} non-hash or invalid value(s). "
+                  f"Only MD5, SHA-1, and SHA-256 are supported. Examples: {preview}"
+              )
+
+          output_path = Path("hybridanalysis/actions_input.csv")
+          output_path.parent.mkdir(parents=True, exist_ok=True)
+          with output_path.open("w", newline="", encoding="utf-8-sig") as file:
+              writer = csv.writer(file)
+              writer.writerow(["indicator"])
+              writer.writerows([[value] for value in values])
+
+          print(f"Prepared {len(values)} unique file hashes.")
+          print("Supported types: MD5, SHA-1, SHA-256.")
+          PY
+
+      - name: Run Hybrid Analysis hash lookup
+        env:
+          HYBRID_ANALYSIS_KEY: ${{ secrets.HYBRID_ANALYSIS_KEY }}
+        run: |
+          if [ -z "$HYBRID_ANALYSIS_KEY" ]; then
+            echo "::error::Add HYBRID_ANALYSIS_KEY under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          python hybridanalysis/hybridanalysis.py hybridanalysis/actions_input.csv
+
+      - name: Upload Hybrid Analysis results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hybrid-analysis-hash-results
+          path: |
+            hybridanalysis/hybrid_analysis_results.csv
+            hybridanalysis/hybrid_analysis_raw.json
+          if-no-files-found: warn
+          retention-days: 7
