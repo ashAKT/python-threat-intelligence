@@ -29,7 +29,6 @@ The script reads environment variables from an `.env` file in the `abusech` dire
 
 ```dotenv
 ABUSECH_API_KEY=your_abusech_api_key
-MALWAREBAZAAR_API_KEY=your_malwarebazaar_api_key
 ```
 
 The exact credential requirements may vary by endpoint and provider policy. Do not commit real credentials; keep `.env` local and use repository secrets for automated workflows.
