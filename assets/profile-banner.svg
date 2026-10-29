@@ -1,30 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
-  <title id="title">Dark code editor themed profile banner</title>
-  <desc id="desc">A clean dark code editor window with syntax-highlighted code, a file tree, and a terminal panel.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Cyberpunk neon profile banner</title>
+  <desc id="desc">A synthwave cyberpunk skyline with glowing cyan and magenta neon, a digital sun, scanlines, and a perspective grid.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0b0f17"/><stop offset="100%" stop-color="#101b2b"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080316"/><stop offset="52%" stop-color="#16062b"/><stop offset="100%" stop-color="#030b1b"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff2bd6"/><stop offset="50%" stop-color="#9b5cff"/><stop offset="100%" stop-color="#00f5ff"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff3dbd"/><stop offset="100%" stop-color="#ff9b54"/>
+    </linearGradient>
+    <pattern id="scan" width="4" height="6" patternUnits="userSpaceOnUse"><path d="M0 5.5H4" stroke="#b4faff" stroke-opacity=".07"/></pattern>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
-  <rect width="1200" height="340" rx="16" fill="url(#bg)" stroke="#26394d" stroke-width="2"/>
-  <rect x="1" y="1" width="1198" height="42" rx="15" fill="#151e2b"/><path d="M1 28V43H1199V28" fill="#151e2b"/>
-  <circle cx="24" cy="21" r="5" fill="#ff6b6b"/><circle cx="43" cy="21" r="5" fill="#ffd166"/><circle cx="62" cy="21" r="5" fill="#06d6a0"/>
-  <text x="600" y="26" text-anchor="middle" font-family="monospace" font-size="13" fill="#91a4ba">profile.md — code editor</text>
-  <rect x="1" y="44" width="225" height="295" fill="#0d1520"/><path d="M226 44V339" stroke="#26394d"/>
-  <text x="22" y="73" font-family="monospace" font-size="12" letter-spacing="1.5" fill="#72869d">EXPLORER</text>
-  <text x="22" y="108" font-family="monospace" font-size="14" fill="#8da5c0">▾  WORKSPACE</text>
-  <text x="43" y="139" font-family="monospace" font-size="14" fill="#65e6c4">▣  profile.md</text>
-  <text x="43" y="169" font-family="monospace" font-size="14" fill="#8da5c0">▣  config.json</text>
-  <text x="43" y="199" font-family="monospace" font-size="14" fill="#8da5c0">▣  terminal.sh</text>
-  <text x="43" y="229" font-family="monospace" font-size="14" fill="#8da5c0">▣  README.md</text>
-  <rect x="227" y="44" width="972" height="37" fill="#101a27"/><text x="250" y="68" font-family="monospace" font-size="13" fill="#65e6c4">● profile.md</text>
-  <g font-family="monospace" font-size="16">
-    <g fill="#52657a" text-anchor="end"><text x="260" y="116">1</text><text x="260" y="146">2</text><text x="260" y="176">3</text><text x="260" y="206">4</text><text x="260" y="236">5</text><text x="260" y="266">6</text></g>
-    <text x="285" y="116" fill="#c792ea">const</text><text x="340" y="116" fill="#82aaff">profile</text><text x="405" y="116" fill="#d6deeb">= {</text>
-    <text x="310" y="146" fill="#c3e88d">theme</text><text x="367" y="146" fill="#d6deeb">:</text><text x="385" y="146" fill="#ecc48d">'dark-editor'</text><text x="515" y="146" fill="#d6deeb">,</text>
-    <text x="310" y="176" fill="#c3e88d">mode</text><text x="367" y="176" fill="#d6deeb">:</text><text x="385" y="176" fill="#ecc48d">'creative'</text><text x="492" y="176" fill="#d6deeb">,</text>
-    <text x="310" y="206" fill="#c3e88d">status</text><text x="380" y="206" fill="#d6deeb">:</text><text x="398" y="206" fill="#ecc48d">'online'</text><text x="482" y="206" fill="#d6deeb">,</text>
-    <text x="310" y="236" fill="#c3e88d">access</text><text x="380" y="236" fill="#d6deeb">:</text><text x="398" y="236" fill="#ecc48d">'granted'</text>
-    <text x="285" y="266" fill="#d6deeb">};</text>
+  <rect width="1200" height="360" rx="18" fill="url(#bg)"/>
+  <circle cx="900" cy="120" r="95" fill="url(#sun)" opacity=".9"/>
+  <g stroke="#19052c" stroke-width="8" opacity=".9">
+    <path d="M805 92H995M800 119H1000M808 146H992M823 173H977"/>
   </g>
-  <rect x="227" y="308" width="972" height="31" fill="#0b121c"/>
-  <text x="248" y="328" font-family="monospace" font-size="12" fill="#65e6c4">TERMINAL</text><text x="340" y="328" font-family="monospace" font-size="12" fill="#8da5c0">user@github</text><text x="435" y="328" font-family="monospace" font-size="12" fill="#64a9ff">~ $</text><rect x="458" y="316" width="7" height="14" fill="#65e6c4"/>
+  <g fill="#080b20" stroke="url(#neon)" stroke-width="1.6">
+    <path d="M660 255V154H706V181H735V122H782V215H812V177H850V255Z"/>
+    <path d="M940 255V185H969V145H1005V206H1034V168H1070V255Z"/>
+    <path d="M1080 255V119H1114V158H1148V255Z"/>
+    <path d="M590 255V198H620V173H650V255Z"/>
+  </g>
+  <g stroke="#00f5ff" stroke-width="2" filter="url(#glow)" opacity=".8">
+    <path d="M681 176H693M681 193H693M681 210H693M749 145H763M749 162H763M749 179H763M827 195H840M827 212H840M982 163H994M982 180H994M1046 187H1058M1046 204H1058M1091 140H1102M1091 157H1102"/>
+  </g>
+  <g fill="none" stroke="url(#neon)" stroke-width="1.4" opacity=".72">
+    <path d="M0 275H1200"/>
+    <path d="M0 360L600 275L1200 360M100 360L620 275M250 360L640 275M400 360L660 275M800 360L700 275M950 360L730 275M1100 360L760 275"/>
+    <path d="M0 300H1200M0 326H1200M0 346H1200"/>
+  </g>
+  <g fill="none" stroke="#ff2bd6" stroke-width="2" opacity=".8" filter="url(#glow)">
+    <path d="M52 70H255V95H215M52 70V104M1148 62H1080V80H1045"/>
+    <path d="M58 295H230M58 295V278M1142 293H1000M1142 293V276"/>
+  </g>
+  <text x="68" y="58" font-family="monospace" font-size="13" letter-spacing="3" fill="#00f5ff">NIGHT CITY // DIGITAL FRONTIER</text>
+  <text x="64" y="144" font-family="monospace" font-size="48" font-weight="700" fill="#f8edff" filter="url(#glow)">CYBERPUNK</text>
+  <text x="67" y="184" font-family="monospace" font-size="22" letter-spacing="5" fill="#ff4bd8">NEON DREAMS_</text>
+  <g font-family="monospace" font-size="13" fill="#a6faff">
+    <text x="70" y="225">[ SIGNAL FOUND ]</text>
+    <text x="70" y="246">[ CONNECTION ESTABLISHED ]</text>
+  </g>
+  <rect width="1200" height="360" rx="18" fill="url(#scan)"/>
+  <path d="M67 270H330" stroke="url(#neon)" stroke-width="3" filter="url(#glow)"/>
+  <rect x="338" y="262" width="8" height="16" fill="#00f5ff" filter="url(#glow)"/>
 </svg>
