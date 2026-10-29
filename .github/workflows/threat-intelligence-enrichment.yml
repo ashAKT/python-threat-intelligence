@@ -1,0 +1,144 @@
+name: Threat Intelligence Enrichment
+
+on:
+  workflow_dispatch:
+    inputs:
+      iocs:
+        description: "Enter IPs, domains, URLs, or file hashes separated by commas, spaces, or newlines"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  enrich:
+    name: Enrich IOCs across threat intelligence services
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install requests python-dotenv
+
+      - name: Prepare service-specific IOC files
+        id: prepare
+        env:
+          IOC_INPUT: ${{ inputs.iocs }}
+        run: |
+          python - <<'PY'
+          import csv
+          import ipaddress
+          import os
+          import re
+          from pathlib import Path
+
+          raw = os.environ.get("IOC_INPUT", "")
+          values = [x.strip().strip("\"'") for x in re.split(r"[,;\s]+", raw) if x.strip()]
+          values = list(dict.fromkeys(x for x in values if not x.startswith("#")))
+          if not values:
+              raise SystemExit("No IOCs were supplied.")
+
+          root = Path.cwd()
+          ip_values, hashes = [], []
+          otx_rows = []
+
+          for value in values:
+              try:
+                  ip = str(ipaddress.ip_address(value))
+                  ip_values.append(ip)
+                  kind = "IPV4" if ipaddress.ip_address(ip).version == 4 else "IPV6"
+              except ValueError:
+                  if re.fullmatch(r"(?i)[a-f0-9]{32}", value):
+                      kind = "MD5"; hashes.append(value)
+                  elif re.fullmatch(r"(?i)[a-f0-9]{40}", value):
+                      kind = "SHA1"; hashes.append(value)
+                  elif re.fullmatch(r"(?i)[a-f0-9]{64}", value):
+                      kind = "SHA256"; hashes.append(value)
+                  elif re.fullmatch(r"(?i)[a-f0-9]{128}", value):
+                      kind = "SHA512"
+                  elif value.lower().startswith(("http://", "https://")):
+                      kind = "URL"
+                  else:
+                      kind = "DOMAIN"
+              otx_rows.append({"indicator": value, "type": kind})
+
+          def write_csv(path, headers, rows):
+              path.parent.mkdir(parents=True, exist_ok=True)
+              with path.open("w", newline="", encoding="utf-8-sig") as f:
+                  writer = csv.DictWriter(f, fieldnames=headers)
+                  writer.writeheader()
+                  writer.writerows(rows)
+
+          write_csv(root / "OTXalienvault/indicators.csv", ["indicator", "type"], otx_rows)
+          write_csv(root / "VTLookup/hashes.csv", ["hash"], [{"hash": x} for x in hashes])
+          write_csv(root / "abuseipdb/actions_input.csv", ["ioc"], [{"ioc": x} for x in values])
+          (root / "freeipapi/ips.txt").write_text("\n".join(ip_values) + ("\n" if ip_values else ""), encoding="utf-8")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"has_iocs={'true' if values else 'false'}\n")
+              output.write(f"has_ips={'true' if ip_values else 'false'}\n")
+              output.write(f"has_hashes={'true' if hashes else 'false'}\n")
+
+          print(f"Prepared {len(values)} unique IOCs.")
+          print(f"IP addresses: {len(ip_values)}; file hashes for VirusTotal: {len(hashes)}")
+          print("OTX supports the submitted IPs, domains, URLs and recognized hash types.")
+          PY
+
+      - name: Verify required API secrets
+        env:
+          OTX_API_KEY: ${{ secrets.OTX_API_KEY }}
+          VT_API_KEY: ${{ secrets.VT_API_KEY }}
+          ABUSEIPDB_API_KEY: ${{ secrets.ABUSEIPDB_API_KEY }}
+        run: |
+          missing=0
+          for key in OTX_API_KEY VT_API_KEY ABUSEIPDB_API_KEY; do
+            if [ -z "${!key}" ]; then
+              echo "::warning::$key is not configured. The corresponding lookup may fail."
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            echo "Add the API keys under Settings > Secrets and variables > Actions."
+          fi
+
+      - name: AlienVault OTX lookup
+        env:
+          OTX_API_KEY: ${{ secrets.OTX_API_KEY }}
+        run: python OTXalienvault/otxalienvault.py
+
+      - name: VirusTotal hash lookup
+        if: steps.prepare.outputs.has_hashes == 'true'
+        env:
+          VT_API_KEY: ${{ secrets.VT_API_KEY }}
+        run: python VTLookup/vtlookup.py
+
+      - name: AbuseIPDB lookup
+        env:
+          ABUSEIPDB_API_KEY: ${{ secrets.ABUSEIPDB_API_KEY }}
+        run: python abuseipdb/abuseipdb.py abuseipdb/actions_input.csv --output abuseipdb/abuseipdb_results.csv
+
+      - name: FreeIPAPI IP enrichment
+        if: steps.prepare.outputs.has_ips == 'true'
+        run: python freeipapi/freeipapi.py
+
+      - name: Upload enrichment results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: threat-intelligence-enrichment-results
+          path: |
+            OTXalienvault/otx_results.csv
+            VTLookup/results.csv
+            abuseipdb/abuseipdb_results.csv
+            freeipapi/ip_enrichment_results.csv
+          if-no-files-found: warn
+          retention-days: 7
