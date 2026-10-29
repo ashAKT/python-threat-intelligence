@@ -8,15 +8,15 @@ A collection of Python-based utilities for SOC operations, IOC enrichment, threa
 
 | Tool / folder | Purpose | Main inputs | Output / result |
 |---|---|---|---|
-| [VirusTotal IOC Lookup](VTLookup/) | Enrich file hashes, IPs, domains, and URLs using VirusTotal | `VTLookup/ioc.csv` | `VTLookup/results.csv` |
-| [abuse.ch IOC Enrichment](abusech/) | Query ThreatFox, MalwareBazaar, and URLhaus for supported indicators | Indicators/hashes TXT or CSV; see script | `abusech/abusech_ioc_results.csv` |
-| [AbuseIPDB](abuseipdb/) | Check IP abuse reputation, confidence score, reports, ISP, and related context | TXT/CSV of indicators; see script help | `abuseipdb/abuseipdb_results.csv` or selected output |
-| [FreeIPAPI](freeipapi/) | Retrieve IP geolocation, ASN, and proxy-related fields supported by the API | `freeipapi/ips.txt` | `freeipapi/ip_enrichment_results.csv` |
-| [AlienVault OTX](OTXalienvault/) | Look up IPs, domains, URLs, hashes, and CVEs in OTX | `OTXalienvault/indicators.csv` | `OTXalienvault/otx_results.csv` |
-| [MISSP — MISP Threat Intelligence Collector & IOC Search](missp/) | Collect supported MISP feed data into a searchable IOC database and search for matches | Feed collection configuration and individual/list IOCs | IOC database and `ioc_matches.csv`; see [tool README](missp/README.md) |
-| [ViewDNS.info Enrichment](viewdnsinfo/) | Enrich IPs/domains with DNS, historical IP, WHOIS, reverse lookup, spam-database and related infrastructure context supported by your account | `viewdnsinfo/ioc.txt` or command-line input | `viewdnsinfo/viewdns_results.csv` and `viewdnsinfo/viewdns_results.json` |
+| [VirusTotal IOC Lookup](VTLookup/) · [README](VTLookup/README.md) | Enrich file hashes, IPs, domains, and URLs using VirusTotal | `VTLookup/ioc.csv` | `VTLookup/results.csv` |
+| [abuse.ch IOC Enrichment](abusech/) · [README](abusech/README.md) | Query ThreatFox, MalwareBazaar, and URLhaus for supported indicators | Indicators/hashes TXT or CSV; see script | `abusech/abusech_ioc_results.csv` |
+| [AbuseIPDB](abuseipdb/) · [README](abuseipdb/README.md) | Check IP abuse reputation, confidence score, reports, ISP, and related context | TXT/CSV of indicators; see script help | `abuseipdb/abuseipdb_results.csv` or selected output |
+| [FreeIPAPI](freeipapi/) · [README](freeipapi/README.md) | Retrieve IP geolocation, ASN, and proxy-related fields supported by the API | `freeipapi/ips.txt` | `freeipapi/ip_enrichment_results.csv` |
+| [AlienVault OTX](OTXalienvault/) · [README](OTXalienvault/README.md) | Look up IPs, domains, URLs, hashes, and CVEs in OTX | `OTXalienvault/indicators.csv` | `OTXalienvault/otx_results.csv` |
+| [MISSP — MISP Threat Intelligence Collector & IOC Search](missp/) · [README](missp/README.md) | Collect supported MISP feed data into a searchable IOC database and search for matches | Feed collection configuration and individual/list IOCs | IOC database and `ioc_matches.csv`; see [tool README](missp/README.md) |
+| [ViewDNS.info Enrichment](viewdnsinfo/) · [README](viewdnsinfo/README.md) | Enrich IPs/domains with DNS, historical IP, WHOIS, reverse lookup, spam-database and related infrastructure context supported by your account | `viewdnsinfo/ioc.txt` or command-line input | `viewdnsinfo/viewdns_results.csv` and `viewdnsinfo/viewdns_results.json` |
 
-The folders contain the scripts, inputs, and tool-specific documentation. Read each folder's README where available and use each script's `--help` output for its exact supported arguments. API fields, access, rate limits, and results depend on the external provider and your account.
+Each tool folder now includes a project-specific README with setup, configuration, input/output details, usage examples, and troubleshooting. Use each script's `--help` output for the exact supported arguments where available. API fields, access, rate limits, and results depend on the external provider and your account.
 
 ## Quick Start
 
