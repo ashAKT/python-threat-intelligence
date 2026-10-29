@@ -12,3 +12,6 @@ https://www.abuseipdb.com/bulk-report
 
 MXToolBox
 https://mxtoolbox.com/api/api-reference
+
+Telegram
+https://core.telegram.org/api
