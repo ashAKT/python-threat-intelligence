@@ -333,11 +333,7 @@ def search_iocs(iocs, index, provider_columns):
 
 
 def write_results(results, output_path, fieldnames):
-    """Export matching database records to a separate CSV."""
-    if not results:
-        print("[-] No matching records to export.")
-        return
-
+    """Export matching records to CSV, creating a header-only file when none match."""
     output_path.parent.mkdir(
         parents=True,
         exist_ok=True,
@@ -362,7 +358,10 @@ def write_results(results, output_path, fieldnames):
         writer.writeheader()
         writer.writerows(results)
 
-    print(f"[+] Matching records saved to: {output_path}")
+    if results:
+        print(f"[+] Matching records saved to: {output_path}")
+    else:
+        print(f"[+] No matching records. Empty results report created: {output_path}")
 
 
 def main():
