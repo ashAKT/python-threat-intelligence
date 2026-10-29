@@ -1,51 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
-  <title id="title">Cinematic neon hacker city banner</title>
-  <desc id="desc">A mysterious hooded silhouette overlooking a futuristic neon city, with animated digital rain, glowing circuitry, and a cyberpunk skyline. No code editor window.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#03040d"/><stop offset="48%" stop-color="#10051f"/><stop offset="100%" stop-color="#031522"/></linearGradient>
-    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#00ff9d"/><stop offset="50%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#ff2bd6"/></linearGradient>
-    <linearGradient id="hood" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#15253a"/><stop offset="100%" stop-color="#03050d"/></linearGradient>
-    <radialGradient id="aura"><stop offset="0%" stop-color="#ff2bd6" stop-opacity=".38"/><stop offset="100%" stop-color="#ff2bd6" stop-opacity="0"/></radialGradient>
-    <pattern id="scan" width="3" height="6" patternUnits="userSpaceOnUse"><path d="M0 5.5H3" stroke="#b8fff4" stroke-opacity=".07"/></pattern>
-    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  </defs>
-  <rect width="1200" height="360" rx="18" fill="url(#bg)"/>
-  <ellipse cx="880" cy="175" rx="280" ry="210" fill="url(#aura)"/>
-  <g opacity=".38" fill="#00ff9d" font-family="monospace" font-size="13">
-    <text x="690" y="-40">01011010<tspan x="690" dy="19">10100101</tspan><tspan x="690" dy="19">0xA31F</tspan><tspan x="690" dy="19">11001010</tspan><tspan x="690" dy="19">SIGNAL</tspan><animateTransform attributeName="transform" type="translate" from="0 -50" to="0 460" dur="8s" repeatCount="indefinite"/></text>
-    <text x="760" y="-150">10110010<tspan x="760" dy="19">ACCESS</tspan><tspan x="760" dy="19">00101101</tspan><tspan x="760" dy="19">0xFF02</tspan><tspan x="760" dy="19">TRACE_OFF</tspan><animateTransform attributeName="transform" type="translate" from="0 -80" to="0 500" dur="11s" repeatCount="indefinite"/></text>
-    <text x="1125" y="-90">11010001<tspan x="1125" dy="19">01011010</tspan><tspan x="1125" dy="19">ENCRYPT</tspan><tspan x="1125" dy="19">10101101</tspan><animateTransform attributeName="transform" type="translate" from="0 -70" to="0 470" dur="9s" repeatCount="indefinite"/></text>
-  </g>
-  <g fill="#070a17" stroke="url(#neon)" stroke-opacity=".75" stroke-width="1.4">
-    <path d="M610 285V202H645V171H682V224H710V145H751V285Z"/>
-    <path d="M765 285V187H798V121H832V166H860V205H886V285Z"/>
-    <path d="M1010 285V180H1044V140H1076V204H1108V161H1142V285Z"/>
-    <path d="M1150 285V215H1176V184H1199V285Z"/>
-  </g>
-  <g stroke="#00f5ff" stroke-width="2" opacity=".85" filter="url(#glow)">
-    <path d="M721 166H738M721 184H738M721 202H738M810 143H824M810 160H824M1021 199H1036M1021 216H1036M1118 180H1132M1118 197H1132"/>
-  </g>
-  <g fill="none" stroke="url(#neon)" stroke-width="1.4" opacity=".6">
-    <path d="M600 285H1200M600 310H1200M600 335H1200"/>
-    <path d="M620 360L825 285M720 360L850 285M820 360L875 285M920 360L900 285M1020 360L925 285M1120 360L950 285"/>
-    <path d="M610 65H655V80H680M1150 65H1110V85H1085"/>
-  </g>
-  <g transform="translate(900 198)">
-    <path d="M-126 140C-122 69-95 28-68 7C-58-45-28-79 0-83C28-79 58-45 68 7C95 28 122 69 126 140Z" fill="url(#hood)" stroke="#1d6d86" stroke-width="2"/>
-    <path d="M-70 4C-56-35-29-53 0-55C29-53 56-35 70 4L46 42L0 55L-46 42Z" fill="#03060f" stroke="url(#neon)" stroke-width="2.5" filter="url(#glow)"/>
-    <path d="M-45 2L-13 12M13 12L45 2" stroke="#00f5ff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
-    <path d="M-20 34L0 40L20 34" fill="none" stroke="#ff2bd6" stroke-width="2" opacity=".8"/>
-    <path d="M-100 90L-150 140M100 90L150 140" stroke="#00f5ff" stroke-opacity=".6" stroke-width="2"/>
-  </g>
-  <g font-family="monospace">
-    <text x="58" y="58" font-size="13" letter-spacing="3" fill="#00f5ff">SHADOW NETWORK // ONLINE</text>
-    <text x="54" y="132" font-size="43" font-weight="700" fill="#f5f0ff" filter="url(#glow)">ENTER THE</text>
-    <text x="54" y="181" font-size="43" font-weight="700" fill="#ff4bd8" filter="url(#glow)">SHADOW</text>
-    <text x="58" y="218" font-size="20" letter-spacing="4" fill="#00f5ff">DIGITAL UNDERGROUND_</text>
-    <text x="58" y="259" font-size="13" fill="#a4ffe5">[ SIGNAL ACTIVE ]</text>
-    <text x="58" y="281" font-size="13" fill="#a4ffe5">[ TRACE UNAVAILABLE ]</text>
-  </g>
-  <path d="M58 304H360" stroke="url(#neon)" stroke-width="3" filter="url(#glow)"/>
-  <rect x="368" y="296" width="8" height="16" fill="#00f5ff" filter="url(#glow)"/>
-  <rect width="1200" height="360" rx="18" fill="url(#scan)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+<title id="title">NIGHTSHIFT Cyber Operations</title><desc id="desc">Animated cyber operations dashboard with rotating radar, moving signal traces, digital grid, and neon indicators.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#050816"/><stop offset=".52" stop-color="#10102a"/><stop offset="1" stop-color="#031b24"/></linearGradient>
+<linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111a31" stop-opacity=".97"/><stop offset="1" stop-color="#07131d" stop-opacity=".92"/></linearGradient>
+<linearGradient id="sweep" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#00f5d4" stop-opacity="0"/><stop offset="1" stop-color="#00f5d4" stop-opacity=".55"/></linearGradient>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#4af5e8" stroke-opacity=".12"/></pattern>
+<filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="1200" height="380" rx="18" fill="url(#bg)"/><rect width="1200" height="380" fill="url(#grid)"/>
+<g opacity=".7" stroke="#00f5d4" fill="none"><path d="M-30 292H150L192 250H338L370 218H505" stroke-width="2"/><path d="M720 78H835L866 109H1020L1060 69H1230" stroke-width="2"/><path d="M740 330H860L900 290H1030L1070 250H1230"/><path d="M-20 110H80L120 150H205"/></g>
+<g fill="#00f5d4" filter="url(#glow)"><circle cx="150" cy="292" r="4"/><circle cx="505" cy="218" r="4"/><circle cx="720" cy="78" r="4"/><circle cx="1070" cy="250" r="4"/></g>
+<g transform="translate(925 190)"><circle r="122" fill="#04141e" fill-opacity=".7" stroke="#00f5d4" stroke-opacity=".65" stroke-width="1.5"/><circle r="92" fill="none" stroke="#00f5d4" stroke-opacity=".4"/><circle r="61" fill="none" stroke="#00f5d4" stroke-opacity=".4"/><circle r="30" fill="none" stroke="#00f5d4" stroke-opacity=".4"/><path d="M-122 0H122M0 -122V122M-86 -86L86 86M-86 86L86 -86" stroke="#00f5d4" stroke-opacity=".22"/><path d="M0 0L0 -119A119 119 0 0 1 91 -76Z" fill="url(#sweep)"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="7s" repeatCount="indefinite"/></path><circle cx="42" cy="-47" r="4" fill="#ff4ecd" filter="url(#glow)"><animate attributeName="opacity" values="1;.2;1" dur="1.4s" repeatCount="indefinite"/></circle><circle cx="-61" cy="20" r="4" fill="#ffb454" filter="url(#glow)"><animate attributeName="opacity" values=".2;1;.2" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="15" cy="66" r="3" fill="#00f5d4"/></g>
+<g transform="translate(62 48)"><rect width="610" height="284" rx="14" fill="url(#panel)" stroke="#00f5d4" stroke-opacity=".65"/><path d="M0 42H610" stroke="#00f5d4" stroke-opacity=".45"/><circle cx="22" cy="21" r="5" fill="#ff4ecd"/><circle cx="40" cy="21" r="5" fill="#ffb454"/><circle cx="58" cy="21" r="5" fill="#00f5d4"/><text x="80" y="26" fill="#8ea6bd" font-family="monospace" font-size="12" letter-spacing="2">NIGHTSHIFT // LIVE TELEMETRY</text><text x="30" y="93" fill="#00f5d4" font-family="monospace" font-size="15" letter-spacing="4">SYSTEM INITIALIZED</text><text x="28" y="145" fill="#f3f7ff" font-family="monospace" font-size="42" font-weight="700">CYBER</text><text x="28" y="190" fill="#f3f7ff" font-family="monospace" font-size="42" font-weight="700">OPERATIONS<tspan fill="#ff4ecd">_</tspan></text><text x="31" y="224" fill="#a9bdd1" font-family="monospace" font-size="13">THREAT SIGNALS / OPEN SOURCE / AUTOMATION</text><rect x="30" y="248" width="12" height="12" rx="2" fill="#00f5d4"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></rect><text x="51" y="259" fill="#00f5d4" font-family="monospace" font-size="12" letter-spacing="2">SIGNAL LOCKED</text><text x="572" y="259" fill="#ff4ecd" font-family="monospace" font-size="12" text-anchor="end">[ 0x7E ]</text></g>
+<g fill="#9cb2c8" font-family="monospace" font-size="10" opacity=".8"><text x="800" y="42">LATENCY: 04ms</text><text x="1035" y="335">NODE_07 // ACTIVE</text><text x="75" y="360">ENCRYPTED CHANNEL ESTABLISHED</text><text x="1050" y="42">● LIVE</text></g>
+<g fill="#00f5d4" opacity=".75"><rect x="690" y="118" width="3" height="18"><animate attributeName="height" values="6;28;12;18" dur="1.1s" repeatCount="indefinite"/><animate attributeName="y" values="124;108;120;118" dur="1.1s" repeatCount="indefinite"/></rect><rect x="700" y="122" width="3" height="14"><animate attributeName="height" values="20;7;25;14" dur="1.4s" repeatCount="indefinite"/></rect><rect x="710" y="115" width="3" height="21"><animate attributeName="height" values="12;25;8;21" dur="1.2s" repeatCount="indefinite"/></rect><rect x="720" y="126" width="3" height="10"><animate attributeName="height" values="10;18;5;10" dur="1s" repeatCount="indefinite"/></rect></g>
+<rect x="1" y="1" width="1198" height="378" rx="18" fill="none" stroke="#00f5d4" stroke-opacity=".5" stroke-width="2"/>
 </svg>
