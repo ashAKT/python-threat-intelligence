@@ -12,3 +12,9 @@ trigger_workflow.py
 
 # Local editor settings
 .vscode/backups/
+
+*.session
+*.session-journal
+telegram/telegram_findings.csv
+telegram/telegram_findings.json
+telegram/discovered_channels.json
