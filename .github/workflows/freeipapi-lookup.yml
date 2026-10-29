@@ -1,0 +1,52 @@
+name: FreeIPAPI IP Lookup
+
+on:
+  workflow_dispatch:
+    inputs:
+      ips:
+        description: "Enter IP addresses separated by commas, spaces, or newlines"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  freeipapi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install requests
+      - name: Prepare IP input
+        env:
+          IOC_INPUT: ${{ inputs.ips }}
+        run: |
+          python - <<'PY'
+          import ipaddress, os, re
+          from pathlib import Path
+          values = list(dict.fromkeys(x.strip().strip("\"'") for x in re.split(r"[,;\s]+", os.environ.get("IOC_INPUT", "")) if x.strip()))
+          values = [x for x in values if not x.startswith("#")]
+          valid = []
+          for value in values:
+              try: valid.append(str(ipaddress.ip_address(value)))
+              except ValueError: print(f"Skipping invalid IP: {value}")
+          valid = list(dict.fromkeys(valid))
+          if not valid: raise SystemExit("No valid IP addresses supplied.")
+          Path("freeipapi/ips.txt").write_text("\n".join(valid) + "\n", encoding="utf-8")
+          print(f"Prepared {len(valid)} unique IP addresses.")
+          PY
+      - name: Run FreeIPAPI lookup
+        run: python freeipapi/freeipapi.py
+      - name: Upload FreeIPAPI results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: freeipapi-lookup-results
+          path: freeipapi/ip_enrichment_results.csv
+          if-no-files-found: warn
+          retention-days: 7
