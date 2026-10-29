@@ -1,10 +1,10 @@
-name: VirusTotal Hash Lookup
+name: VirusTotal IOC Lookup
 
 on:
   workflow_dispatch:
     inputs:
-      hashes:
-        description: "Enter MD5, SHA-1, or SHA-256 hashes separated by commas, spaces, or newlines"
+      iocs:
+        description: "Enter file hashes, IP addresses, domains, or URLs separated by commas, spaces, or newlines"
         required: true
         type: string
 
@@ -13,43 +13,75 @@ permissions:
 
 jobs:
   virustotal:
+    name: Enrich mixed IOCs with VirusTotal
     runs-on: ubuntu-latest
     timeout-minutes: 120
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install dependencies
         run: python -m pip install requests python-dotenv
-      - name: Prepare hashes
+
+      - name: Prepare mixed IOC input
         env:
-          IOC_INPUT: ${{ inputs.hashes }}
+          IOC_INPUT: ${{ inputs.iocs }}
         run: |
           python - <<'PY'
-          import csv, os, re
+          import csv
+          import os
+          import re
           from pathlib import Path
-          values = list(dict.fromkeys(x.strip().strip("\"'") for x in re.split(r"[,;\s]+", os.environ.get("IOC_INPUT", "")) if x.strip()))
-          values = [x for x in values if not x.startswith("#")]
-          valid = [x for x in values if re.fullmatch(r"(?i)([a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64})", x)]
-          if not valid: raise SystemExit("No valid MD5, SHA-1, or SHA-256 hashes supplied.")
-          p = Path("VTLookup/hashes.csv")
-          with p.open("w", newline="", encoding="utf-8-sig") as f:
-              w = csv.DictWriter(f, fieldnames=["hash"]); w.writeheader(); w.writerows({"hash": x} for x in valid)
-          print(f"Prepared {len(valid)} unique hashes. VirusTotal script waits 20 seconds between requests.")
-          if len(valid) != len(values): print(f"Skipped {len(values)-len(valid)} values that are not supported hash formats.")
+
+          raw = os.environ.get("IOC_INPUT", "")
+          values = [
+              item.strip().strip("\\\"'")
+              for item in re.split(r"[,;\\s]+", raw)
+              if item.strip()
+          ]
+          values = list(dict.fromkeys(
+              item for item in values if not item.startswith("#")
+          ))
+
+          if not values:
+              raise SystemExit("No IOCs were supplied.")
+
+          output_path = Path("VTLookup/ioc.csv")
+          output_path.parent.mkdir(parents=True, exist_ok=True)
+
+          with output_path.open(
+              "w", newline="", encoding="utf-8-sig"
+          ) as file:
+              writer = csv.writer(file)
+              writer.writerow(["ioc"])
+              writer.writerows([[item] for item in values])
+
+          print(f"Prepared {len(values)} unique IOCs for VirusTotal.")
+          print("Supported types: file hashes, IP addresses, domains, and HTTP/HTTPS URLs.")
+          print("The lookup script applies its configured 20-second delay between requests.")
           PY
-      - name: Run VirusTotal lookup
+
+      - name: Run VirusTotal IOC lookup
         env:
           VT_API_KEY: ${{ secrets.VT_API_KEY }}
         run: |
-          if [ -z "$VT_API_KEY" ]; then echo "::error::Add VT_API_KEY under Settings > Secrets and variables > Actions."; exit 1; fi
+          if [ -z "$VT_API_KEY" ]; then
+            echo "::error::Add VT_API_KEY under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
           python VTLookup/vtlookup.py
+
       - name: Upload VirusTotal results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: virustotal-lookup-results
+          name: virustotal-ioc-results
           path: VTLookup/results.csv
           if-no-files-found: warn
           retention-days: 7
