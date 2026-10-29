@@ -1,12 +1,12 @@
 # Telegram Threat Intelligence Monitor
 
-A Python-based Telegram OSINT helper that discovers candidate public channels, scans recent messages in accessible channels, and flags posts that contain configured client identifiers together with specific potential data-exposure indicators.
+A Python-based Telegram OSINT helper that discovers relevant public channels, scans recent messages in accessible channels, and flags posts that contain configured client identifiers together with specific potential data-exposure indicators.
 
 > **Important:** This is a collection and triage aid, not proof of a breach. Validate every finding with an analyst and trusted sources. Telegram search is limited; this tool does not search every public channel or perform unrestricted global post search.
 
 ## Features
 
-- Discover candidate public channels using configurable threat-intelligence and client keywords.
+- Discover public channels using configurable threat-intelligence and client keywords.
 - Scan recent messages in discovered channels, configured channels, and channels/supergroups visible in your Telegram dialogs.
 - Match client watchlist identifiers against specific exposure phrases to reduce alerts from ordinary company mentions.
 - Redact common sensitive patterns and URLs from stored message text.
@@ -53,10 +53,10 @@ Use your actual credentials locally. Never paste them into source code, commit t
 Edit `telegram/config.json`.
 
 - `known_channels`: Optional usernames or channel references to scan explicitly. Use an empty list for automatic discovery plus accessible dialogs.
-- `discovery_keywords`: Terms used to discover candidate channels through Telegram chat search.
+- `discovery_keywords`: Terms used to discover relevant channels through Telegram chat search.
 - `client_watchlist`: Client names and identifiers to match. Replace the example values with approved identifiers, or use an empty list for a generic public configuration.
 - `messages_per_channel`: Maximum number of recent messages to inspect per channel in each run.
-- `max_discovered_channels_per_keyword`: Limit for new candidate channels retained for each discovery term.
+- `max_discovered_channels_per_keyword`: Limit for new channels retained for each discovery term.
 - `scan_existing_dialogs`: Include channels and supergroups visible in your Telegram dialogs.
 - `store_message_text`: Whether to store a redacted excerpt of matching messages.
 - `store_source_message_link`: Whether to include links to matching messages when a public channel username is available.
@@ -85,13 +85,13 @@ python telegram/telegram_test.py
 python telegram/telegram_monitor.py
 ```
 
-The test script checks whether Telegram authentication works. The monitor then discovers candidate channels, scans messages, and writes reports.
+The test script checks whether Telegram authentication works. The monitor then discovers relevant channels, scans messages, and writes reports.
 
 ## Generated output
 
 After a run, the following files are created in the `telegram/` directory:
 
-- `discovered_channels.json` — candidate channels and the search terms that found them.
+- `discovered_channels.json` — channel discovery metadata and the search terms that found them.
 - `telegram_findings.csv` — spreadsheet-friendly findings.
 - `telegram_findings.json` — structured findings.
 
