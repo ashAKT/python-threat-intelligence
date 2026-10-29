@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">Cybersecurity and threat intelligence banner</title>
+  <desc id="desc">Dark navy abstract network with teal nodes and shield motif.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07111f"/>
+      <stop offset="60%" stop-color="#10243a"/>
+      <stop offset="100%" stop-color="#07111f"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3ee6c4"/>
+      <stop offset="100%" stop-color="#49a6ff"/>
+    </linearGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0V34" fill="none" stroke="#86a8c7" stroke-opacity=".10" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="320" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="320" rx="24" fill="url(#grid)"/>
+  <g fill="none" stroke="url(#accent)" stroke-opacity=".58" stroke-width="1.8">
+    <path d="M690 60L790 104 890 58 1004 112 1100 70"/>
+    <path d="M650 170L760 212 858 158 955 218 1070 172 1160 220"/>
+    <path d="M790 104L760 212M890 58L858 158 955 218M1004 112L1070 172M1100 70L1160 220"/>
+    <path d="M715 275L858 158M715 275L955 218M955 218L1080 286"/>
+  </g>
+  <g fill="#07111f" stroke="url(#accent)" stroke-width="2.5">
+    <circle cx="690" cy="60" r="5"/><circle cx="790" cy="104" r="6"/><circle cx="890" cy="58" r="5"/>
+    <circle cx="1004" cy="112" r="6"/><circle cx="1100" cy="70" r="5"/><circle cx="650" cy="170" r="5"/>
+    <circle cx="760" cy="212" r="6"/><circle cx="858" cy="158" r="7"/><circle cx="955" cy="218" r="6"/>
+    <circle cx="1070" cy="172" r="5"/><circle cx="1160" cy="220" r="5"/><circle cx="715" cy="275" r="5"/>
+    <circle cx="1080" cy="286" r="5"/>
+  </g>
+  <g transform="translate(1000 150)" opacity=".95">
+    <path d="M0 -52L42 -36V-4C42 25 23 44 0 57C-23 44-42 25-42-4V-36Z" fill="#0d2539" stroke="url(#accent)" stroke-width="3"/>
+    <path d="M-18 0L-5 14 21 -15" fill="none" stroke="#7fffe0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="64" y="105" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="5" fill="#63e6ca">SOC • THREAT HUNTING • DFIR</text>
+  <text x="60" y="166" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="42" font-weight="800" fill="#f0f7ff">CYBER DEFENSE</text>
+  <text x="64" y="208" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" font-weight="500" fill="#a9c5dc">Threat Intelligence  /  Detection Engineering  /  Automation</text>
+  <rect x="64" y="244" width="180" height="3" rx="2" fill="url(#accent)"/>
+  <text x="64" y="277" font-family="ui-monospace,SFMono-Regular,Consolas,monospace" font-size="13" letter-spacing="2" fill="#789bb5">INVESTIGATE • ENRICH • CORRELATE</text>
+</svg>
