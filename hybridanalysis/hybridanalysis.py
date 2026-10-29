@@ -1,21 +1,54 @@
 
+#!/usr/bin/env python3
+"""
+Hybrid Analysis Hash Lookup Tool
+
+Features:
+- MD5, SHA-1 and SHA-256 lookups
+- CSV or TXT input
+- CSV summary output
+- Raw JSON response output
+- Safe handling of missing reports and API errors
+
+Environment variable:
+    HYBRID_ANALYSIS_KEY
+
+Repository layout:
+    python-threat-intelligence/
+    ├── .env
+    └── hybridanalysis/
+        ├── hybridanalysis.py
+        └── indicators.csv
+"""
+
+import argparse
 import csv
+import ipaddress
 import json
 import os
 import re
 import sys
-import time
 from pathlib import Path
-from urllib.parse import quote
 
 import requests
+from dotenv import load_dotenv
+
+
+# --------------------------------------------------
+# Configuration
+# --------------------------------------------------
 
 BASE_URL = "https://www.hybrid-analysis.com/api/v2"
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_DIR = SCRIPT_DIR.parent
+ENV_FILE = REPO_DIR / ".env"
+
+load_dotenv(ENV_FILE)
+
 API_KEY = os.getenv("HYBRID_ANALYSIS_KEY")
 
-INPUT_FILE = sys.argv[1] if len(sys.argv) > 1 else "hashes.csv"
-OUTPUT_FILE = "hybrid_analysis_results.csv"
-RAW_FILE = "hybrid_analysis_raw.json"
+TIMEOUT = 30
 
 HEADERS = {
     "api-key": API_KEY or "",
@@ -23,47 +56,95 @@ HEADERS = {
     "accept": "application/json",
 }
 
-HASH_PATTERN = re.compile(
-    r"^(?:[a-fA-F0-9]{32}|[a-fA-F0-9]{40}|[a-fA-F0-9]{64})$"
-)
 
-FIELDS = [
-    "input_hash",
-    "report_found",
-    "verdict",
-    "threat_score",
-    "threat_level",
-    "av_detect",
-    "vx_family",
-    "sha256",
-    "md5",
-    "sha1",
-    "job_id",
-    "environment_id",
-    "environment_description",
-    "analysis_start_time",
-    "report_url",
-    "error",
-]
+# --------------------------------------------------
+# API request
+# --------------------------------------------------
+
+def api_request(method, endpoint, **kwargs):
+    """Send a request and return a sanitized result."""
+
+    try:
+        response = requests.request(
+            method,
+            f"{BASE_URL}/{endpoint.lstrip('/')}",
+            headers=HEADERS,
+            timeout=TIMEOUT,
+            **kwargs,
+        )
+    except requests.RequestException as exc:
+        return {
+            "ok": False,
+            "status_code": None,
+            "error": str(exc),
+            "data": None,
+        }
+
+    try:
+        data = response.json()
+    except ValueError:
+        data = {"response_text": response.text[:4000]}
+
+    error = None
+
+    if not response.ok:
+        if isinstance(data, dict):
+            error = data.get("message") or data.get("error")
+
+        error = error or response.reason
+
+    return {
+        "ok": response.ok,
+        "status_code": response.status_code,
+        "error": error,
+        "data": data,
+    }
 
 
-def load_hashes(filename):
-    """Load unique hashes from a CSV or TXT file."""
+# --------------------------------------------------
+# Input handling
+# --------------------------------------------------
+
+def classify_hash(value):
+    """Return a supported hash type, or None."""
+
+    value = value.strip()
+
+    if re.fullmatch(r"[a-fA-F0-9]{32}", value):
+        return "MD5"
+
+    if re.fullmatch(r"[a-fA-F0-9]{40}", value):
+        return "SHA1"
+
+    if re.fullmatch(r"[a-fA-F0-9]{64}", value):
+        return "SHA256"
+
+    return None
+
+
+def load_indicators(filename):
+    """Read unique indicators from CSV or TXT."""
+
     path = Path(filename)
+
+    if not path.is_absolute():
+        path = Path.cwd() / path
 
     if not path.is_file():
         raise FileNotFoundError(f"Input file not found: {path}")
 
-    hashes = []
+    indicators = []
 
     if path.suffix.lower() == ".csv":
         with path.open(
-            "r", encoding="utf-8-sig", newline=""
+            "r",
+            encoding="utf-8-sig",
+            newline="",
         ) as file:
             reader = csv.DictReader(file)
 
             if not reader.fieldnames:
-                return []
+                raise ValueError("CSV must contain a header row.")
 
             columns = {
                 name.strip().lower(): name
@@ -71,284 +152,316 @@ def load_hashes(filename):
                 if name
             }
 
-            preferred = ("hash", "sha256", "sha1", "md5")
+            preferred = [
+                "indicator",
+                "ioc",
+                "value",
+                "hash",
+                "file_hash",
+                "md5",
+                "sha1",
+                "sha256",
+            ]
+
             column = next(
-                (columns[name] for name in preferred if name in columns),
+                (
+                    columns[name]
+                    for name in preferred
+                    if name in columns
+                ),
                 reader.fieldnames[0],
             )
 
             for row in reader:
                 value = (row.get(column) or "").strip()
-                if value:
-                    hashes.append(value)
+
+                if value and value not in indicators:
+                    indicators.append(value)
+
     else:
         with path.open("r", encoding="utf-8-sig") as file:
-            hashes = [
-                line.strip()
-                for line in file
-                if line.strip()
-                and not line.lstrip().startswith("#")
-            ]
+            for line in file:
+                value = line.strip()
 
-    return list(dict.fromkeys(hashes))
+                if (
+                    value
+                    and not value.startswith("#")
+                    and value not in indicators
+                ):
+                    indicators.append(value)
 
-
-def request_json(session, endpoint, params=None):
-    """Make an API request and return JSON or a diagnostic error."""
-    url = f"{BASE_URL}/{endpoint.lstrip('/')}"
-
-    try:
-        response = session.get(
-            url,
-            params=params,
-            timeout=30,
-        )
-
-        if response.status_code == 401:
-            return None, "HTTP 401: Invalid or missing API key"
-
-        if response.status_code == 403:
-            return None, "HTTP 403: API access forbidden"
-
-        if response.status_code == 404:
-            return None, "HTTP 404: Report or endpoint not found"
-
-        if response.status_code == 429:
-            return None, "HTTP 429: API rate limit exceeded"
-
-        response.raise_for_status()
-
-        try:
-            return response.json(), None
-        except ValueError:
-            return None, "API returned a non-JSON response"
-
-    except requests.RequestException as exc:
-        return None, f"Request error: {exc}"
+    return indicators
 
 
-def as_report_list(data):
-    """Normalize common search response formats."""
-    if isinstance(data, list):
-        return [item for item in data if isinstance(item, dict)]
+# --------------------------------------------------
+# Verdict extraction
+# --------------------------------------------------
+
+def extract_verdict(data):
+    """Extract a verdict from hash lookup results."""
 
     if isinstance(data, dict):
-        for key in ("result", "data", "reports"):
-            value = data.get(key)
-            if isinstance(value, list):
-                return [
-                    item for item in value
-                    if isinstance(item, dict)
-                ]
+        verdict = data.get("verdict")
 
-        # A single report may be returned as an object.
-        return [data]
+        if verdict:
+            return str(verdict)
 
-    return []
+        reports = data.get("reports", [])
 
+        if isinstance(reports, list):
+            for report in reports:
+                if not isinstance(report, dict):
+                    continue
 
-def fetch_summary(session, report):
-    """
-    Fetch a detailed report summary using job_id, or
-    SHA256:environment_id if the job ID is unavailable.
-    """
-    job_id = report.get("job_id")
-    sha256 = report.get("sha256")
-    environment_id = report.get("environment_id")
+                state = str(report.get("state", "")).upper()
 
-    if job_id:
-        report_id = str(job_id)
-    elif sha256 and environment_id is not None:
-        report_id = f"{sha256}:{environment_id}"
-    else:
-        return None, "No usable report ID in search result"
+                # Ignore failed reports without a usable verdict.
+                if state in {"ERROR", "FAILED"}:
+                    continue
 
-    endpoint = f"report/{quote(report_id, safe=':')}/summary"
-    return request_json(session, endpoint)
+                verdict = report.get("verdict")
+
+                if verdict:
+                    return str(verdict)
+
+    return "Unknown"
 
 
-def first_value(data, *keys):
-    """Return the first nonempty value among possible field names."""
-    for key in keys:
-        value = data.get(key)
-        if value is not None and value != "":
-            return value
-    return ""
+# --------------------------------------------------
+# Hash lookup
+# --------------------------------------------------
 
+def lookup_hash(value):
+    """Look up a file hash in Hybrid Analysis."""
 
-def lookup_hash(session, file_hash):
-    """Search for a hash and enrich results with detailed summaries."""
-    if not HASH_PATTERN.fullmatch(file_hash):
-        return [], {
-            "error": "Invalid MD5, SHA-1, or SHA-256 format"
-        }
-
-    search_data, search_error = request_json(
-        session,
+    result = api_request(
+        "GET",
         "search/hash",
-        params={"hash": file_hash},
+        params={"hash": value},
     )
 
-    if search_error:
-        return [], {
-            "search_error": search_error,
-            "search_response": search_data,
+    data = result["data"]
+
+    if not result["ok"]:
+        return {
+            "status": (
+                f"API Error ({result['status_code']})"
+                if result["status_code"] is not None
+                else "Connection Error"
+            ),
+            "verdict": "Unknown",
+            "details": result,
         }
 
-    reports = as_report_list(search_data)
-
-    if not reports:
-        return [], {
-            "search_response": search_data,
-            "message": "No existing reports returned",
+    if not isinstance(data, dict):
+        return {
+            "status": "Unexpected API Response",
+            "verdict": "Unknown",
+            "details": result,
         }
 
-    rows = []
-    raw_reports = []
+    reports = data.get("reports", [])
 
-    for report in reports:
-        raw_entry = {"search_result": report}
+    if not isinstance(reports, list):
+        reports = []
 
-        # Search results may not contain the complete verdict.
-        summary, summary_error = fetch_summary(session, report)
+    verdict = extract_verdict(data)
 
-        if isinstance(summary, dict):
-            raw_entry["summary"] = summary
-            # Summary fields take precedence when populated.
-            combined = {**report, **summary}
-        else:
-            combined = report
-            raw_entry["summary_error"] = summary_error
+    if reports:
+        status = "Report Found"
+    else:
+        status = "No Reports Found"
 
-        raw_reports.append(raw_entry)
-
-        sha256 = first_value(combined, "sha256")
-        job_id = first_value(combined, "job_id")
-        environment_id = first_value(combined, "environment_id")
-
-        verdict = first_value(
-            combined,
-            "verdict",
-            "classification",
-            "threat_classification",
-        )
-
-        # Do not label an absent verdict as benign or malicious.
-        if not verdict:
-            verdict = "Unknown"
-
-        report_url = (
-            f"https://www.hybrid-analysis.com/sample/{sha256}"
-            if sha256 else ""
-        )
-
-        rows.append({
-            "input_hash": file_hash,
-            "report_found": True,
-            "verdict": verdict,
-            "threat_score": first_value(
-                combined, "threat_score", "score"
-            ),
-            "threat_level": first_value(combined, "threat_level"),
-            "av_detect": first_value(combined, "av_detect"),
-            "vx_family": first_value(
-                combined, "vx_family", "family"
-            ),
-            "sha256": sha256,
-            "md5": first_value(combined, "md5"),
-            "sha1": first_value(combined, "sha1"),
-            "job_id": job_id,
-            "environment_id": environment_id,
-            "environment_description": first_value(
-                combined, "environment_description"
-            ),
-            "analysis_start_time": first_value(
-                combined, "analysis_start_time"
-            ),
-            "report_url": report_url,
-            "error": (
-                f"Summary unavailable: {summary_error}"
-                if summary_error else ""
-            ),
-        })
-
-    return rows, {
-        "search_response": search_data,
-        "reports": raw_reports,
+    return {
+        "status": status,
+        "verdict": verdict,
+        "details": result,
     }
 
 
-def main():
-    if not API_KEY:
-        sys.exit(
-            "ERROR: HYBRID_ANALYSIS_KEY is not set.\n"
-            "Set it before running this script."
+# --------------------------------------------------
+# Process indicators
+# --------------------------------------------------
+
+def process_indicator(value):
+    """Process supported hashes; skip other indicator types."""
+
+    hash_type = classify_hash(value)
+
+    if not hash_type:
+        return {
+            "indicator": value,
+            "type": "unsupported",
+            "status": "Skipped - Hash Only Mode",
+            "verdict": "Unknown",
+            "details": {},
+        }
+
+    result = lookup_hash(value)
+
+    return {
+        "indicator": value,
+        "type": hash_type,
+        "status": result["status"],
+        "verdict": result["verdict"],
+        "details": result["details"],
+    }
+
+
+# --------------------------------------------------
+# Save results
+# --------------------------------------------------
+
+def save_results(results):
+    """Write summary CSV and raw JSON."""
+
+    csv_path = SCRIPT_DIR / "hybrid_analysis_results.csv"
+    json_path = SCRIPT_DIR / "hybrid_analysis_raw.json"
+
+    with csv_path.open(
+        "w",
+        encoding="utf-8",
+        newline="",
+    ) as file:
+        fields = [
+            "indicator",
+            "type",
+            "status",
+            "verdict",
+        ]
+
+        writer = csv.DictWriter(file, fieldnames=fields)
+        writer.writeheader()
+
+        for item in results:
+            writer.writerow({
+                field: item.get(field, "")
+                for field in fields
+            })
+
+    with json_path.open("w", encoding="utf-8") as file:
+        json.dump(
+            results,
+            file,
+            indent=2,
+            ensure_ascii=False,
         )
 
+    return csv_path, json_path
+
+
+# --------------------------------------------------
+# API key check
+# --------------------------------------------------
+
+def check_key():
+    """Check authentication without printing credentials."""
+
+    result = api_request("GET", "key/current")
+
+    print(f"HTTP status: {result['status_code']}")
+
+    if not result["ok"]:
+        print(f"API key check failed: {result['error']}")
+        return 1
+
+    data = result["data"]
+
+    if isinstance(data, dict):
+        print("API key accepted.")
+        print(
+            "Auth level:",
+            data.get("auth_level_name", "Unknown"),
+        )
+    else:
+        print("Unexpected API response.")
+
+    return 0
+
+
+# --------------------------------------------------
+# Main
+# --------------------------------------------------
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Hybrid Analysis hash lookup utility"
+    )
+
+    parser.add_argument(
+        "input",
+        nargs="?",
+        help="Input CSV or TXT file",
+    )
+
+    parser.add_argument(
+        "--check-key",
+        action="store_true",
+        help="Verify the API key without printing it",
+    )
+
+    args = parser.parse_args()
+
+    print(f"[INFO] Repository: {REPO_DIR}")
+    print(f"[INFO] Environment file: {ENV_FILE}")
+
+    if not API_KEY:
+        print(
+            "[ERROR] HYBRID_ANALYSIS_KEY is missing from .env",
+            file=sys.stderr,
+        )
+        return 1
+
+    if args.check_key:
+        return check_key()
+
+    if not args.input:
+        parser.error("Provide an input CSV or TXT file.")
+
     try:
-        hashes = load_hashes(INPUT_FILE)
-    except (OSError, csv.Error) as exc:
-        sys.exit(f"ERROR reading input file: {exc}")
+        indicators = load_indicators(args.input)
+    except (OSError, ValueError) as exc:
+        print(f"[ERROR] {exc}", file=sys.stderr)
+        return 1
 
-    if not hashes:
-        sys.exit("No hashes found in the input file.")
+    if not indicators:
+        print("[ERROR] No indicators found.")
+        return 1
 
-    print(f"Loaded {len(hashes)} unique indicators.")
+    results = []
 
-    session = requests.Session()
-    session.headers.update(HEADERS)
+    for index, value in enumerate(indicators, start=1):
+        print(f"\n[{index}/{len(indicators)}] {value}")
 
-    all_rows = []
-    raw_data = {}
+        item = process_indicator(value)
+        results.append(item)
 
-    for index, file_hash in enumerate(hashes, start=1):
-        print(f"\n[{index}/{len(hashes)}] Checking {file_hash}")
+        print(f"    Type:    {item['type']}")
+        print(f"    Status:  {item['status']}")
+        print(f"    Verdict: {item['verdict']}")
 
-        rows, raw = lookup_hash(session, file_hash)
-        raw_data[file_hash] = raw
+        details = item.get("details", {})
 
-        if not rows:
-            error = raw.get("search_error") or raw.get("message", "")
-            print(f"    No report rows: {error}")
+        if details and not details.get("ok", True):
+            print(f"    Detail:  {details.get('error')}")
 
-            all_rows.append({
-                "input_hash": file_hash,
-                "report_found": False,
-                "verdict": "Unknown",
-                "error": error or "No usable report returned",
-            })
-        else:
-            for row in rows:
-                print(f"    Verdict: {row['verdict']}")
-                print(f"    SHA-256: {row['sha256'] or 'Unavailable'}")
+    csv_path, json_path = save_results(results)
 
-                if row["error"]:
-                    print(f"    Note: {row['error']}")
+    supported = sum(
+        item["type"] != "unsupported"
+        for item in results
+    )
+    skipped = len(results) - supported
 
-                all_rows.append(row)
+    print("\n[INFO] Processing complete.")
+    print(f"[INFO] Total indicators: {len(results)}")
+    print(f"[INFO] Hashes processed: {supported}")
+    print(f"[INFO] Non-hash indicators skipped: {skipped}")
+    print(f"[INFO] CSV: {csv_path}")
+    print(f"[INFO] JSON: {json_path}")
 
-        # Avoid continuing after an explicit API rate-limit response.
-        if "HTTP 429" in str(raw.get("search_error", "")):
-            print("Rate limit reached; stopping remaining lookups.")
-            break
-
-        if index < len(hashes):
-            time.sleep(1)
-
-    with open(
-        OUTPUT_FILE, "w", newline="", encoding="utf-8-sig"
-    ) as file:
-        writer = csv.DictWriter(file, fieldnames=FIELDS)
-        writer.writeheader()
-        writer.writerows(all_rows)
-
-    with open(RAW_FILE, "w", encoding="utf-8") as file:
-        json.dump(raw_data, file, indent=2, default=str)
-
-    print("\nLookup complete.")
-    print(f"CSV results: {OUTPUT_FILE}")
-    print(f"Raw API responses: {RAW_FILE}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
