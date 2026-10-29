@@ -1,0 +1,55 @@
+name: VirusTotal Hash Lookup
+
+on:
+  workflow_dispatch:
+    inputs:
+      hashes:
+        description: "Enter MD5, SHA-1, or SHA-256 hashes separated by commas, spaces, or newlines"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  virustotal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install requests python-dotenv
+      - name: Prepare hashes
+        env:
+          IOC_INPUT: ${{ inputs.hashes }}
+        run: |
+          python - <<'PY'
+          import csv, os, re
+          from pathlib import Path
+          values = list(dict.fromkeys(x.strip().strip("\"'") for x in re.split(r"[,;\s]+", os.environ.get("IOC_INPUT", "")) if x.strip()))
+          values = [x for x in values if not x.startswith("#")]
+          valid = [x for x in values if re.fullmatch(r"(?i)([a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64})", x)]
+          if not valid: raise SystemExit("No valid MD5, SHA-1, or SHA-256 hashes supplied.")
+          p = Path("VTLookup/hashes.csv")
+          with p.open("w", newline="", encoding="utf-8-sig") as f:
+              w = csv.DictWriter(f, fieldnames=["hash"]); w.writeheader(); w.writerows({"hash": x} for x in valid)
+          print(f"Prepared {len(valid)} unique hashes. VirusTotal script waits 20 seconds between requests.")
+          if len(valid) != len(values): print(f"Skipped {len(values)-len(valid)} values that are not supported hash formats.")
+          PY
+      - name: Run VirusTotal lookup
+        env:
+          VT_API_KEY: ${{ secrets.VT_API_KEY }}
+        run: |
+          if [ -z "$VT_API_KEY" ]; then echo "::error::Add VT_API_KEY under Settings > Secrets and variables > Actions."; exit 1; fi
+          python VTLookup/vtlookup.py
+      - name: Upload VirusTotal results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: virustotal-lookup-results
+          path: VTLookup/results.csv
+          if-no-files-found: warn
+          retention-days: 7
