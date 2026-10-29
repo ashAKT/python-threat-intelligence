@@ -42,7 +42,7 @@ jobs:
           raw = os.environ.get("HASH_INPUT", "")
           values = [
               item.strip().strip("\\"'")
-              for item in re.split(r"[,;\\s]+", raw)
+              for item in re.split(r"[,;\s]+", raw)
               if item.strip()
           ]
           values = list(dict.fromkeys(
