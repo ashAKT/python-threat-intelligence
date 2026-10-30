@@ -15,8 +15,8 @@ trigger_workflow.py
 
 *.session
 *.session-journal
-#telegram/telegram_findings.csv
-#telegram/telegram_findings.json
-#telegram/discovered_channels.json
+telegram/telegram_client_mentions.csv
+telegram/discovered_channels.json
+telegram/telegram_potential_exposures.csv
 
 backups/
