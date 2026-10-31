@@ -20,3 +20,4 @@ telegram/discovered_channels.json
 telegram/telegram_potential_exposures.csv
 
 backups/
+assets/
